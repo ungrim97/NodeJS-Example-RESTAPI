@@ -10,6 +10,8 @@ jobs:
       - run:
           command: mkdir ./artifacts
       - run:
+          command: sudo chown 1000:1000 ./artifacts
+      - run:
           name: 'Test'
           command: 'docker-compose -f test/docker-compose.yml up --build --abort-on-container-exit --exit-code-from messageStore'
       - codecov/upload:
