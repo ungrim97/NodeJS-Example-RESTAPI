@@ -8,13 +8,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: 'Build Images',
+          name: 'Build Images'
           command: 'docker-compose build -f test/docker-compose.yml'
       - run:
           name: 'Test'
           command: 'docker-compose -f test/docker-compose.yml up -d messageStore'
       - run:
-          name: 'Fetch artifacts',
+          name: 'Fetch artifacts'
           command: 'docker cp "$(docker-compose -f test/docker-compose.yml ps -q messageStore)":coverage.lcov coverage.lcov'
-      - codecov/upload
+      - codecov/upload:
           file: 'coverage.lcov'
