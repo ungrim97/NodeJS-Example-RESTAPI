@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  messageStore:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: message_app
+    container_name: message_app
+    environment:
+      - APP_PORT=9000
+    ports:
+      - "9000:9000"
+    networks:
+      - app-network
+    depends_on:
+      - messageStoreDB
+    command: ./bin/docker/run_tests.sh
+  messageStoreDB:
+    image: mysql:latest
+    container_name: message_app_testdb
+    environment:
+      MYSQL_ROOT_PASSWORD: test_pass
+      MYSQL_USER: message_app
+      MYSQL_PASS: message_app_pass
+networks:
+  app-network:
+    driver: bridge
