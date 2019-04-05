@@ -17,7 +17,7 @@ services:
       - messageStoreDB
     entrypoint: ./bin/docker/run_tests.sh
     volumes:
-      - /tmp:/tmp
+      - ${PWD}/artifacts:/home/node/app/artifacts
   messageStoreDB:
     image: mysql:latest
     container_name: message_app_testdb

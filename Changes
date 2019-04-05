@@ -1,3 +1,7 @@
+2019-04-05 21:35
+
+    - Fix race condition uploading code coverage to codecov
+
 2019-04-05 15:37
 
     - Add docker support. Container for DB and application, as well as for testing

@@ -13,7 +13,7 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-RUN mkdir ./.nyc_output
+RUN mkdir .nyc_output
 
 EXPOSE 9000
 

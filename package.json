@@ -1,6 +1,6 @@
 {
   "name": "TechTest-Messages",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple Message store",
   "main": "bin/server.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "start": "node bin/server.js",
     "test": "NODE_ENV=testing mocha test/unit/*",
     "test:integration": "NODE_ENV=testing nyc mocha test/integration/*",
+    "test:dockerize": "docker-compose -f test/docker-compose.yml up --build --abort-on-container-exit --exit-code-from messageStore",
     "coverage": "nyc report",
     "tidy": "prettier --write '{bin,src,test}/**/*.js'"
   },

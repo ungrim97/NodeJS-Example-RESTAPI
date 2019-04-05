@@ -8,10 +8,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: 'Build Images'
-          command: 'docker-compose -f test/docker-compose.yml build '
+          command: mkdir ./artifacts
+      - run:
+          command: sudo chown 1000:1000 ./artifacts
       - run:
           name: 'Test'
-          command: 'docker-compose -f test/docker-compose.yml run messageStore'
+          command: 'docker-compose -f test/docker-compose.yml up --build --abort-on-container-exit --exit-code-from messageStore'
       - codecov/upload:
-          file: '/tmp/coverage.lcov'
+          file: './artifacts/coverage.lcov'
