@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: 'Build Images'
-          command: 'docker-compose build -f test/docker-compose.yml'
+          command: 'docker-compose -f test/docker-compose.yml build '
       - run:
           name: 'Test'
           command: 'docker-compose -f test/docker-compose.yml up -d messageStore'
