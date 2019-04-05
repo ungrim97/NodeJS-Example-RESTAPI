@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  messageStore:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: message_app
+    container_name: message_app
+    environment:
+      - PORT=9000
+    ports:
+      - "9000:9000"
+    networks:
+      - app-network
+    command: npm start dev
+networks:
+  app-network:
+    driver: bridge
