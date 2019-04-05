@@ -1,0 +1,5 @@
+2019-04-05 15:37
+
+    - Add docker support. Container for DB and application, as well as for testing
+    - Add circleci support. CI running on all commits with codecov coverage
+    - Added Healthcheck route
