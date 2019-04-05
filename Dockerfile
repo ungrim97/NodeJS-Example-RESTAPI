@@ -13,8 +13,6 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-RUN [ -d artifacts ] || mkdir artifacts
-
 RUN mkdir .nyc_output
 
 EXPOSE 9000

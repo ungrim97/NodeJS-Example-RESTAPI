@@ -11,6 +11,6 @@ jobs:
           command: mkdir ./artifacts
       - run:
           name: 'Test'
-          command: 'docker-compose -f test/docker-compose.yml up --build --exit-code-from messageStore messageStore'
+          command: 'docker-compose -f test/docker-compose.yml up --build --abort-on-container-exit --exit-code-from messageStore'
       - codecov/upload:
-          file: 'artifacts/coverage.lcov'
+          file: './artifacts/coverage.lcov'
