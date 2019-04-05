@@ -6,7 +6,7 @@ services:
       context: ..
       dockerfile: Dockerfile
     image: message_app
-    container_name: message_app
+    container_name: message_app_test
     environment:
       - APP_PORT=9000
     ports:
