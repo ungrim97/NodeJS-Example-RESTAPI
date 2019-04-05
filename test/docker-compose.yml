@@ -6,7 +6,7 @@ services:
       context: ..
       dockerfile: Dockerfile
     image: message_app
-    container_name: message_app
+    container_name: message_app_test
     environment:
       - APP_PORT=9000
     ports:
@@ -15,7 +15,9 @@ services:
       - app-network
     depends_on:
       - messageStoreDB
-    command: ./bin/docker/run_tests.sh
+    entrypoint: ./bin/docker/run_tests.sh
+    volumes:
+      - /tmp:/tmp
   messageStoreDB:
     image: mysql:latest
     container_name: message_app_testdb

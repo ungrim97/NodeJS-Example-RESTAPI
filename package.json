@@ -1,6 +1,6 @@
 {
   "name": "TechTest-Messages",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Simple Message store",
   "main": "bin/server.js",
   "scripts": {
