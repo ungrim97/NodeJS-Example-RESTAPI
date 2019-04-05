@@ -8,12 +8,23 @@ services:
     image: message_app
     container_name: message_app
     environment:
-      - PORT=9000
+      - APP_PORT=9000
     ports:
       - "9000:9000"
     networks:
       - app-network
     command: npm start dev
+  messageStoreDB:
+    image: mysql:latest
+    container_name: message_app_db
+    environment:
+      MYSQL_ROOT_PASSWORD: test_pass
+      MYSQL_USER: message_app
+      MYSQL_PASS: message_app_pass
+    volumes:
+      - message_db_volume:/var/lib/mysql
 networks:
   app-network:
     driver: bridge
+volumes:
+  message_db_volume:
