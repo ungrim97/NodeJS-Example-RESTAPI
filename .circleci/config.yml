@@ -12,9 +12,6 @@ jobs:
           command: 'docker-compose -f test/docker-compose.yml build '
       - run:
           name: 'Test'
-          command: 'docker-compose -f test/docker-compose.yml up -d messageStore'
-      - run:
-          name: 'Fetch artifacts'
-          command: 'docker cp "$(docker-compose -f test/docker-compose.yml ps -q messageStore)":/home/node/app/coverage.lcov coverage.lcov'
+          command: 'docker-compose -f test/docker-compose.yml run messageStore'
       - codecov/upload:
-          file: 'coverage.lcov'
+          file: '/tmp/coverage.lcov'
