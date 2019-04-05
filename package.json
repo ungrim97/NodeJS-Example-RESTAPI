@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "NODE_ENV=development node bin/server.js",
     "start": "node bin/server.js",
-    "test": "NODE_ENV=testing nyc mocha",
+    "test": "NODE_ENV=testing mocha test/unit/*",
+    "test:integration": "NODE_ENV=testing nyc mocha test/integration/*",
+    "coverage": "nyc report",
     "tidy": "prettier --write '{bin,src,test}/**/*.js'"
   },
   "author": "Mike Eve",
