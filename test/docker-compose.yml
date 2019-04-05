@@ -16,6 +16,8 @@ services:
     depends_on:
       - messageStoreDB
     command: ./bin/docker/run_tests.sh
+    healthcheck:
+      test: [ "CMD", "-e", "/home/node/app/coverage.lcov" ]
   messageStoreDB:
     image: mysql:latest
     container_name: message_app_testdb
