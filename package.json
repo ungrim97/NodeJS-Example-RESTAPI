@@ -5,10 +5,11 @@
   "main": "bin/server.js",
   "scripts": {
     "dev": "NODE_ENV=development node bin/server.js",
+    "dev:dockerize": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build messageStore",
     "start": "node bin/server.js",
     "test": "NODE_ENV=testing mocha test/unit/*",
     "test:integration": "NODE_ENV=testing nyc mocha test/integration/*",
-    "test:dockerize": "docker-compose -f test/docker-compose.yml up --build --abort-on-container-exit --exit-code-from messageStore",
+    "test:dockerize": "docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from messageStore",
     "coverage": "nyc report",
     "tidy": "prettier --write '{bin,src,test}/**/*.js'"
   },

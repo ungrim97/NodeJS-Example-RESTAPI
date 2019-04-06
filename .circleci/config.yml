@@ -13,6 +13,6 @@ jobs:
           command: sudo chown 1000:1000 ./artifacts
       - run:
           name: 'Test'
-          command: 'docker-compose -f test/docker-compose.yml up --build --abort-on-container-exit --exit-code-from messageStore'
+          command: 'docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from messageStore'
       - codecov/upload:
           file: './artifacts/coverage.lcov'

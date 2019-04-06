@@ -1,0 +1,30 @@
+---
+version: '3'
+
+services:
+  messageStore:
+    environment:
+      MS_DB_USER: message_app
+      MS_DB_PASS: message_app_password
+      MS_DB_HOST: app-network:messageStoreDB
+    depends_on:
+      - messageStoreDB
+    networks:
+      - app-network
+  messageStoreDB:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    container_name: message_store_devdb
+    volumes:
+      - message_db_volume:/var/lib/mysql
+      - ${PWD}/database/init:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+volumes:
+  message_db_volume:
+networks:
+  app-network:
+    driver: bridge
