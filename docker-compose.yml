@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: message_app
+    image: message_app:latest
     container_name: message_app
     environment:
       APP_PORT: 9000
@@ -14,4 +14,4 @@ services:
       MS_DB_HOST:
     ports:
       - "9000:9000"
-    command: npm start dev
+    command: npm start

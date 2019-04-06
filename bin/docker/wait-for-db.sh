@@ -4,8 +4,7 @@
 set -e
 cmd="$@"
 
-echo "mysqladmin ping -h $MS_DB_HOST -p -u $MS_DB_USER --silent"
-echo $cmd
+echo "mysqladmin ping -h $MS_DB_HOST -p*********** -u $MS_DB_USER --silent"
 until mysqladmin ping -h $MS_DB_HOST -p$MS_DB_PASS -u $MS_DB_USER --silent; do
   >&2 echo "$?: Mysql is unavailable - sleeping"
     sleep 1

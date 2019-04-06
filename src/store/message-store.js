@@ -14,7 +14,8 @@ const Message = require('../../database/models/message');
 module.exports = config => {
   const dbOpts = {
     host: config.get('host'),
-    dialect: config.get('dialect')
+    dialect: config.get('dialect'),
+    port: config.get('port')
   };
 
   if (config.get('pool')) {
