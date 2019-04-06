@@ -25,33 +25,6 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `message_store` /*!40100 DEFAULT CHARAC
 
 USE `message_store`;
 
---                                                                                                                                                                                                                                   [18/201]
--- Table structure for table `messages`
---
-
-DROP TABLE IF EXISTS `messages`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `messages` (
-      `id` int(11) NOT NULL AUTO_INCREMENT,
-      `text` text COLLATE utf8_bin,
-      `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-      `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
-      `created_by` datetime NOT NULL,
-      `updated_by` datetime NOT NULL,
-      `owner` varchar(60) COLLATE utf8_bin NOT NULL,
-      PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin STATS_PERSISTENT=0 COMMENT='Message data';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `messages`
---
-
-LOCK TABLES `messages` WRITE;
-/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

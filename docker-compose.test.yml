@@ -6,11 +6,11 @@ services:
     environment:
       MS_DB_USER: message_app
       MS_DB_PASS: message_app_password
-      MS_DB_HOST: app-network:messageStoreDB
+      MS_DB_HOST: messageStoreDB
     depends_on:
       - messageStoreDB
     container_name: message_testapp
-    entrypoint: ./bin/docker/run_tests.sh
+    entrypoint: ./bin/docker/wait-for-db.sh ./bin/docker/run-tests.sh
     volumes:
       - ${PWD}/artifacts:/home/node/app/artifacts
     networks:

@@ -6,11 +6,12 @@ services:
     environment:
       MS_DB_USER: message_app
       MS_DB_PASS: message_app_password
-      MS_DB_HOST: app-network:messageStoreDB
+      MS_DB_HOST: messageStoreDB
     depends_on:
       - messageStoreDB
     networks:
       - app-network
+    command: ./bin/docker/wait-for-db.sh ./bin/docker/run-dev.sh
   messageStoreDB:
     image: mysql:latest
     environment:
