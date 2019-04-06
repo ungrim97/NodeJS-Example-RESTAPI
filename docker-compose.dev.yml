@@ -1,0 +1,38 @@
+---
+version: '3'
+
+services:
+  devMessageStore:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: message_app:dev
+    environment:
+      APP_PORT: 9000
+      MS_DB_USER: message_app
+      MS_DB_PASS: message_app_password
+      MS_DB_HOST: devMessageStoreDB
+    depends_on:
+      - devMessageStoreDB
+    ports:
+      - "9000:9000"
+    networks:
+      - devapp-network
+    command: ./bin/docker/wait-for-db.sh ./bin/docker/run-dev.sh
+  devMessageStoreDB:
+    container_name: message_store_devdb
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "4406:3306"
+    volumes:
+      - message_devdb_volume:/var/lib/mysql
+      - ${PWD}/database/init:/docker-entrypoint-initdb.d
+    networks:
+      - devapp-network
+volumes:
+  message_devdb_volume:
+networks:
+  devapp-network:
+    driver: bridge

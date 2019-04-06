@@ -1,0 +1,34 @@
+---
+version: '3'
+
+services:
+  testMessageStore:
+    container_name: message_store_test
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: message_app:test
+    environment:
+      APP_PORT: 9000
+      MS_DB_USER: message_app
+      MS_DB_PASS: message_app_password
+      MS_DB_HOST: testMessageStoreDB
+    depends_on:
+      - testMessageStoreDB
+    entrypoint: ./bin/docker/wait-for-db.sh ./bin/docker/run-tests.sh
+    volumes:
+      - ${PWD}/artifacts:/home/node/app/artifacts
+    networks:
+      - test-network
+  testMessageStoreDB:
+    container_name: message_store_testdb
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: testpass
+    volumes:
+      - ${PWD}/database/init:/docker-entrypoint-initdb.d
+    networks:
+      - test-network
+networks:
+  test-network:
+    driver: bridge

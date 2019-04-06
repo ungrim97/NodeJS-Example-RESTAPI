@@ -5,10 +5,14 @@
   "main": "bin/server.js",
   "scripts": {
     "dev": "NODE_ENV=development node bin/server.js",
+    "dev:dockerize": "docker-compose -f docker-compose.dev.yml up -d --build",
     "start": "node bin/server.js",
     "test": "NODE_ENV=testing mocha test/unit/*",
     "test:integration": "NODE_ENV=testing nyc mocha test/integration/*",
-    "test:dockerize": "docker-compose -f test/docker-compose.yml up --build --abort-on-container-exit --exit-code-from messageStore",
+    "test:dockerize": "docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from testMessageStore",
+    "migrate:up": "npx sequelize db:migrate",
+    "migrate:down": "npx sequelize db:migrate:undo",
+    "migrate:reset": "npx sequelize db:migrate:undo:all",
     "coverage": "nyc report",
     "tidy": "prettier --write '{bin,src,test}/**/*.js'"
   },
@@ -27,8 +31,9 @@
     "koa-morgan": "^1.0.1",
     "koa-router": "^7.4.0",
     "koa-server-timing": "^0.2.2",
-    "mysql": "^2.16.0",
     "mysql2": "^1.6.5",
+    "sequelize": "^5.2.12",
+    "sequelize-cli": "^5.4.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {

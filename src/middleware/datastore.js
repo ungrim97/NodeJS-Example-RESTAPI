@@ -9,7 +9,7 @@ const DaoFac = require('../dao-factory');
  */
 
 module.exports = config => {
-  const store = new Store(this.config);
+  const store = new Store(config);
   const daoFac = new DaoFac(store);
 
   return (ctx, next) => {
