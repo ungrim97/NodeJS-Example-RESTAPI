@@ -1,1 +1,3 @@
-module.exports = {};
+module.exports = {
+  publickey: 'test/auth-pubkey.pem'
+};

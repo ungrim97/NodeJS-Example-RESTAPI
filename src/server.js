@@ -14,6 +14,7 @@ const requestId = require('./middleware/request-id');
 
 // Routers
 const baseRouter = require('./router/base');
+const messageRouter = require('./router/message');
 
 // Global setup
 morgan.token('session_user', req => (req.user ? req.user.username : null));
@@ -49,10 +50,12 @@ module.exports = class Server {
 
     // Routers
     this.app.use(baseRouter(this.config).routes());
+    this.app.use(messageRouter(this.config).routes());
 
     // Top level Error logger
     this.app.on('error', error => {
-      logger.appLog.error(error.message);
+      logger.appLog.error('Error: ' + error.message);
+      logger.appLog.debug('Debug Error: ', error);
     });
   }
 };
