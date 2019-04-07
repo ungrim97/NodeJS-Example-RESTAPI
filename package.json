@@ -13,6 +13,7 @@
     "migrate:up": "npx sequelize db:migrate",
     "migrate:down": "npx sequelize db:migrate:undo",
     "migrate:reset": "npx sequelize db:migrate:undo:all",
+    "dev:fixtures:populate": "NODE_ENV=development npx ./bin/populate-fixtures.js",
     "coverage": "nyc report",
     "tidy": "prettier --write '{bin,src,test}/**/*.js'"
   },
