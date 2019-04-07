@@ -17,6 +17,42 @@ module.exports = class MessageDao {
   }
 
   /**
+   *  Returns a single message from storage as identified by its primary key
+   *
+   *  @args {Object} deps.timings - Instance of a Koa Server Timings object (option)
+   *  @args {integer} id - Id of the message to retrieve
+   *
+   *  @returns Promise<Object> message
+   */
+  find(deps, id) {
+    deps = deps || {};
+    if (deps.timings) {
+      deps.timings.startSpan('messageDao:find');
+    }
+
+    if (!id) {
+      throw new Error('`id` is a required argument to MessageDao.find()');
+    }
+
+    return this.store.messageStore.models.message
+      .findByPk(id)
+      .then(message => {
+        if (deps.timings) {
+          deps.timings.stopSpan('messageDao:find');
+        }
+
+        return message;
+      })
+      .catch(error => {
+        if (deps && deps.timings) {
+          deps.timings.stopSpan('messageDao:find');
+        }
+
+        throw error;
+      });
+  }
+
+  /**
    * Return the total number of messages in storage
    *
    * @args {Object} deps.timings - Instance of a Koa Server Timings object (optional)

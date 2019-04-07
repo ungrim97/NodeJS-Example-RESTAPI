@@ -4,7 +4,7 @@ const stub = require('sinon').stub;
 
 const Message = require('../../../../src/model/message');
 
-suite('getTotal', function() {
+suite('Model: Message.getTotal()', function() {
   suite('timings', function() {
     test('Resolves', async function() {
       const timingsStub = {
@@ -59,6 +59,12 @@ suite('getTotal', function() {
       assert.ok(timingsStub.startSpan.calledOnce);
       assert.ok(timingsStub.stopSpan.calledOnce);
     });
+  });
+
+  test('No Dao', function() {
+    assert.throws(() => {
+      Message.getTotal({});
+    }, '`deps.daoFac` is a required argument to Message.getTotal()');
   });
 
   test('Count Returns', async function() {

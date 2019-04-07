@@ -4,7 +4,7 @@ const stub = require('sinon').stub;
 
 const Message = require('../../../../src/model/message');
 
-suite('Model: Message.getAll()', function() {
+suite('Model: Message.find()', function() {
   suite('timings', function() {
     test('Resolves', async function() {
       const timingsStub = {
@@ -12,14 +12,14 @@ suite('Model: Message.getAll()', function() {
         stopSpan: stub()
       };
 
-      const messages = await Message.getAll(
+      const messages = await Message.find(
         {
           timings: timingsStub,
           daoFac: {
             daoFor: stub()
               .usingPromise(Promise)
               .resolves({
-                getAll: stub()
+                find: stub()
                   .usingPromise(Promise)
                   .resolves(messageData())
               })
@@ -38,14 +38,14 @@ suite('Model: Message.getAll()', function() {
         stopSpan: stub()
       };
 
-      await Message.getAll(
+      await Message.find(
         {
           timings: timingsStub,
           daoFac: {
             daoFor: stub()
               .usingPromise(Promise)
               .resolves({
-                getAll: stub()
+                find: stub()
                   .usingPromise(Promise)
                   .rejects('error')
               })
@@ -63,43 +63,59 @@ suite('Model: Message.getAll()', function() {
 
   test('No Dao', function() {
     assert.throws(() => {
-      Message.getAll({});
-    }, '`deps.daoFac` is a required argument to Message.getAll()');
+      Message.find({}, 1);
+    }, '`deps.daoFac` is a required argument to Message.find()');
+  });
+
+  test('No id', function() {
+    assert.throws(() => {
+      Message.find({
+        daoFac: {
+          daoFor: stub()
+            .usingPromise(Promise)
+            .resolves({
+              find: stub()
+                .usingPromise(Promise)
+                .resolves(null)
+            })
+        }
+      });
+    }, '`id` is a required argument to Message.find()');
   });
 
   test('No Data', async function() {
-    const messages = await Message.getAll(
+    const messages = await Message.find(
       {
         daoFac: {
           daoFor: stub()
             .usingPromise(Promise)
             .resolves({
-              getAll: stub()
+              find: stub()
                 .usingPromise(Promise)
-                .resolves([])
+                .resolves(null)
             })
         }
       },
-      {}
+      3
     );
 
-    assert.deepEqual(messages, []);
+    assert.deepEqual(messages, undefined);
   });
 
   test('Data Returns', async function() {
-    const messages = await Message.getAll(
+    const messages = await Message.find(
       {
         daoFac: {
           daoFor: stub()
             .usingPromise(Promise)
             .resolves({
-              getAll: stub()
+              find: stub()
                 .usingPromise(Promise)
                 .resolves(messageData())
             })
         }
       },
-      {}
+      1
     );
 
     assert.deepEqual(messages, messageData());
@@ -107,51 +123,13 @@ suite('Model: Message.getAll()', function() {
 });
 
 function messageData() {
-  return [
-    {
-      id: 1,
-      text: 'test',
-      owner: '1',
-      createdAt: '2019-01-01T00:00:00.000Z',
-      updatedAt: '2019-01-01T00:00:00.000Z',
-      updatedBy: 'testUser',
-      createdBy: 'testUser'
-    },
-    {
-      id: 2,
-      text: 'test',
-      owner: '1',
-      createdAt: '2019-01-01T00:00:00.000Z',
-      updatedAt: '2019-01-01T00:00:00.000Z',
-      updatedBy: 'testUser',
-      createdBy: 'testUser'
-    },
-    {
-      id: 3,
-      text: 'test',
-      owner: '1',
-      createdAt: '2019-01-01T00:00:00.000Z',
-      updatedAt: '2019-01-01T00:00:00.000Z',
-      updatedBy: 'testUser',
-      createdBy: 'testUser'
-    },
-    {
-      id: 4,
-      text: 'test',
-      owner: '1',
-      createdAt: '2019-01-01T00:00:00.000Z',
-      updatedAt: '2019-01-01T00:00:00.000Z',
-      updatedBy: 'testUser',
-      createdBy: 'testUser'
-    },
-    {
-      id: 5,
-      text: 'test',
-      owner: '1',
-      createdAt: '2019-01-01T00:00:00.000Z',
-      updatedAt: '2019-01-01T00:00:00.000Z',
-      updatedBy: 'testUser',
-      createdBy: 'testUser'
-    }
-  ];
+  return {
+    id: 1,
+    text: 'test',
+    owner: '1',
+    createdAt: '2019-01-01T00:00:00.000Z',
+    updatedAt: '2019-01-01T00:00:00.000Z',
+    updatedBy: 'testUser',
+    createdBy: 'testUser'
+  };
 }

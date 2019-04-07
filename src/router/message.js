@@ -22,7 +22,7 @@ module.exports = config => {
         ctx.throw(406);
     }
 
-    return next()
+    return next();
   });
 
   /* All routes here are JWT authenticated */
@@ -33,6 +33,41 @@ module.exports = config => {
   );
 
   router.use(paginator.middleware());
+
+  /** GET /messages/:id
+   *
+   * Return a single message by its id
+   *
+   * @param {integer} id - The id of the message to be returned
+   */
+  router.get('/messages/:id', ctx => {
+    ctx.state.timings.startSpan('getMessage');
+    return Message.find(
+      {
+        daoFac: ctx.daoFac,
+        timings: ctx.state.timings
+      },
+      ctx.params.id
+    )
+      .then(message => {
+        if (!message) {
+          ctx.throw(404);
+        }
+
+        ctx.body = {
+          id: message.id,
+          createdAt: message.createdAt,
+          updatedAt: message.updatedAt,
+          owner: message.owner,
+          text: message.text
+        };
+        ctx.state.timings.stopSpan('getMessage');
+      })
+      .catch(error => {
+        ctx.state.timings.stopSpan('getMessage');
+        throw error;
+      });
+  });
 
   /**
    * GET /messages
@@ -45,7 +80,7 @@ module.exports = config => {
    * @returns {Object} Message Resource
    */
   router.get('/messages', ctx => {
-    ctx.state.timings.startSpan('getMessage');
+    ctx.state.timings.startSpan('getMessages');
 
     const totalMessages = Message.getTotal({
       daoFac: ctx.daoFac,
@@ -81,10 +116,10 @@ module.exports = config => {
             pages: paginator.getArrayPages(ctx)(3, pageCount, ctx.query.page)
           }
         };
-        ctx.state.timings.stopSpan('getMessage');
+        ctx.state.timings.stopSpan('getMessages');
       })
       .catch(error => {
-        ctx.state.timings.stopSpan('getMessage');
+        ctx.state.timings.stopSpan('getMessages');
         throw error;
       });
   });
