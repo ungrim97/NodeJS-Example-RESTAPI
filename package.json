@@ -9,7 +9,7 @@
     "start": "node bin/server.js",
     "test": "NODE_ENV=testing mocha test/unit/*",
     "test:integration": "NODE_ENV=testing nyc mocha test/integration/*",
-    "test:dockerize": "docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from testMessageStore",
+    "test:dockerize": "docker-compose -f docker-compose.test.yml up --force-recreate -V --build --abort-on-container-exit --exit-code-from testMessageStore",
     "migrate:up": "npx sequelize db:migrate",
     "migrate:down": "npx sequelize db:migrate:undo",
     "migrate:reset": "npx sequelize db:migrate:undo:all",
