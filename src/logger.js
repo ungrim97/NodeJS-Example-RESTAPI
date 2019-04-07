@@ -4,7 +4,7 @@ const transportOpts =
   process.env.NODE_ENV === 'testing' ? { silent: true } : {};
 
 winston.loggers.add('app', {
-  level: process.env.CSCORE_LOG_LEVEL || 'debug',
+  level: process.env.MS_APP_LOG_LEVEL || 'warn',
   format: winston.format.combine(
     winston.format.label({ label: 'app' }),
     winston.format.timestamp(),
@@ -14,7 +14,7 @@ winston.loggers.add('app', {
 });
 
 winston.loggers.add('dao', {
-  level: process.env.CSCORE_LOG_LEVEL || 'debug',
+  level: process.env.MS_APP_LOG_LEVEL || 'warn',
   format: winston.format.combine(
     winston.format.label({ label: 'dao' }),
     winston.format.timestamp(),
@@ -36,7 +36,7 @@ if (process.env.ACCESS_LOG_FILE) {
 }
 
 winston.loggers.add('accessLog', {
-  level: process.env.CSCORE_LOG_LEVEL || 'debug',
+  level: process.env.MS_APP_LOG_LEVEL || 'warn',
   format: winston.format.combine(
     winston.format.label({ label: 'accessLog' }),
     winston.format.timestamp(),

@@ -6,8 +6,8 @@ module.exports = class Message extends Model {
       {
         id: {
           type: Sequelize.INTEGER,
-          autoincrement: true,
-          primaryKey: true
+          primaryKey: true,
+          autoIncrement: true
         },
         text: {
           type: Sequelize.TEXT,
@@ -15,17 +15,27 @@ module.exports = class Message extends Model {
         },
         createdAt: {
           type: Sequelize.DATE,
-          defaultValue: Sequelize.NOW
+          defaultValue: Sequelize.fn('now')
         },
         updatedAt: {
           type: Sequelize.DATE,
-          defaultValue: Sequelize.NOW
+          defaultValue: Sequelize.fn('now')
         },
-        createdBy: Sequelize.STRING(20),
-        updatedBy: Sequelize.STRING(20),
-        owner: Sequelize.STRING
+        createdBy: {
+          type: Sequelize.STRING(20)
+        },
+        updatedBy: {
+          type: Sequelize.STRING(20)
+        },
+        owner: {
+          type: Sequelize.STRING
+        }
       },
-      { sequelize }
+      {
+        tableName: 'messages',
+        underscored: true,
+        sequelize: sequelize
+      }
     );
   }
 };

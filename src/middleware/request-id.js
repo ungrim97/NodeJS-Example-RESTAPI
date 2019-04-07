@@ -12,6 +12,6 @@ module.exports = () => {
       .substr(2, 9);
     ctx.set('X-Request-Id', ctx.store.reqid);
 
-    next();
+    return next();
   };
 };
