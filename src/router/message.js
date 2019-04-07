@@ -3,6 +3,7 @@ const jwt = require('koa-jwt');
 const paginator = require('koa-ctx-paginate');
 const Promise = require('bluebird');
 const router = require('koa-router')();
+const status = require('http-status');
 
 const logger = require('../logger');
 
@@ -19,20 +20,66 @@ module.exports = config => {
       case 'application/json':
         break;
       default:
-        ctx.throw(406);
+        ctx.throw(status.NOT_ACCEPTABLE);
+    }
+
+    switch (ctx.acceptsCharsets('utf-8')) {
+      case 'utf-8':
+        break;
+      default:
+        ctx.throw(status.NOT_ACCEPTABLE);
     }
 
     return next();
   });
 
-  /* All routes here are JWT authenticated */
+  /* All routes here are JWT authenticated
+   *
+   * A JWT here represents a remote application
+   */
   router.use(
     jwt({
       secret: fs.readFileSync(config.get('publickey'))
     })
   );
 
-  router.use(paginator.middleware());
+  /** DELETE /messages/:id
+   *
+   * Delete a single message by its id
+   *
+   * @param {integer} id - The id of the message to be returned
+   */
+  router.delete('/messages/:id', ctx => {
+    ctx.state.timings.startSpan('deleteMessage');
+    return Message.find(
+      {
+        daoFac: ctx.daoFac,
+        timings: ctx.state.timings
+      },
+      ctx.params.id
+    )
+      .then(message => {
+        if (!message) {
+          ctx.throw(status.NOT_FOUND);
+        }
+
+        return message;
+      })
+      .then(message => {
+        return message.delete({
+          daoFac: ctx.daoFac,
+          timings: ctx.state.timings
+        });
+      })
+      .then(() => {
+        ctx.status = status.NO_CONTENT;
+        ctx.state.timings.stopSpan('deleteMessage');
+      })
+      .catch(error => {
+        ctx.state.timings.stopSpan('deleteMessage');
+        throw error;
+      });
+  });
 
   /** GET /messages/:id
    *
@@ -51,7 +98,7 @@ module.exports = config => {
     )
       .then(message => {
         if (!message) {
-          ctx.throw(404);
+          ctx.throw(status.NOT_FOUND);
         }
 
         ctx.body = {
@@ -79,7 +126,7 @@ module.exports = config => {
    *
    * @returns {Object} Message Resource
    */
-  router.get('/messages', ctx => {
+  router.get('/messages', paginator.middleware(), ctx => {
     ctx.state.timings.startSpan('getMessages');
 
     const totalMessages = Message.getTotal({

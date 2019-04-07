@@ -53,6 +53,42 @@ module.exports = class MessageDao {
   }
 
   /**
+   *  Deletes a single message from storage as identified by its primary key
+   *
+   *  @args {Object} deps.timings - Instance of a Koa Server Timings object (option)
+   *  @args {integer} id - Id of the message to retrieve
+   *
+   *  @returns Promise<Object> message
+   */
+  delete(deps, id) {
+    deps = deps || {};
+    if (deps.timings) {
+      deps.timings.startSpan('messageDao:delete');
+    }
+
+    if (!id) {
+      throw new Error('`id` is a required argument to MessageDao.delete()');
+    }
+
+    return this.store.messageStore.models.message
+      .destroy({ where: { id: id } })
+      .then(message => {
+        if (deps.timings) {
+          deps.timings.stopSpan('messageDao:delete');
+        }
+
+        return message;
+      })
+      .catch(error => {
+        if (deps && deps.timings) {
+          deps.timings.stopSpan('messageDao:delete');
+        }
+
+        throw error;
+      });
+  }
+
+  /**
    * Return the total number of messages in storage
    *
    * @args {Object} deps.timings - Instance of a Koa Server Timings object (optional)
