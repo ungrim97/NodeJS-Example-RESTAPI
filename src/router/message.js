@@ -14,6 +14,17 @@ const Message = require('../model/message');
  */
 
 module.exports = config => {
+  router.use((ctx, next) => {
+    switch (ctx.accepts('application/json')) {
+      case 'application/json':
+        break;
+      default:
+        ctx.throw(406);
+    }
+
+    return next()
+  });
+
   /* All routes here are JWT authenticated */
   router.use(
     jwt({
