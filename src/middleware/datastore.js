@@ -16,6 +16,6 @@ module.exports = config => {
     ctx.store = store;
     ctx.daoFac = daoFac;
 
-    next();
+    return next();
   };
 };
