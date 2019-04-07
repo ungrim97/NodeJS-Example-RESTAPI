@@ -1,3 +1,9 @@
+2019-04-07 17:05
+
+    - Added GET /messages enpoint
+    - Added GET /messages/:id endpoint
+    - Added DELETE /messages/:id endpoint
+
 2019-04-05 21:35
 
     - Fix race condition uploading code coverage to codecov
