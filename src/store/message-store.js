@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const logger = require('../logger');
 
 /**
  * Sequelize ORM store for the message_store database
@@ -15,7 +16,8 @@ module.exports = config => {
   const dbOpts = {
     host: config.get('host'),
     dialect: config.get('dialect'),
-    port: config.get('port')
+    port: config.get('port'),
+    logging: query => logger.daoLog.debug(query)
   };
 
   if (config.get('pool')) {
