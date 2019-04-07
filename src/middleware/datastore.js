@@ -1,3 +1,4 @@
+'use strict';
 const Store = require('../store');
 const DaoFac = require('../dao-factory');
 
@@ -7,7 +8,6 @@ const DaoFac = require('../dao-factory');
  * ctx.store - Store Object
  * ctx.daoFac - Data Access Object factory
  */
-
 module.exports = config => {
   const store = new Store(config);
   const daoFac = new DaoFac(store);

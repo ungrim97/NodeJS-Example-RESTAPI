@@ -1,3 +1,4 @@
+'use strict';
 const config = require('config');
 const fixtures = require('../test/integration/fixtures');
 

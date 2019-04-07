@@ -1,9 +1,10 @@
+'use strict';
 const assert = require('chai').assert;
 const stub = require('sinon').stub;
 
 const MessageDao = require('../../../../src/dao/message');
 
-suite('DAO: MessageDao.find()', function() {
+suite('DAO: MessageDao.delete()', function() {
   setup(function() {
     this.store = {
       messageStore: {
@@ -23,10 +24,10 @@ suite('DAO: MessageDao.find()', function() {
         stopSpan: stub()
       };
 
-      this.store.messageStore.models.message.findByPk = stub().resolves(
+      this.store.messageStore.models.message.destroy = stub().resolves(
         messageData()
       );
-      const messages = await this.dao.find({ timings: timingsStub }, 1);
+      const messages = await this.dao.delete({ timings: timingsStub }, 1);
 
       assert.ok(timingsStub.startSpan.calledOnce);
       assert.ok(timingsStub.stopSpan.calledOnce);
@@ -38,9 +39,9 @@ suite('DAO: MessageDao.find()', function() {
         stopSpan: stub()
       };
 
-      this.store.messageStore.models.message.findByPk = stub().rejects('error');
+      this.store.messageStore.models.message.destroy = stub().rejects('error');
       await this.dao
-        .find({ timings: timingsStub }, 87687686876)
+        .delete({ timings: timingsStub }, 87687686876)
         .catch(error => {
           assert.equal(error, 'error');
         });
@@ -51,25 +52,26 @@ suite('DAO: MessageDao.find()', function() {
   });
 
   test('No Id', function() {
-    this.store.messageStore.models.message.findByPk = stub().resolves();
+    this.store.messageStore.models.message.destroy = stub().resolves();
+
     assert.throws(() => {
-      this.dao.find();
-    }, '`id` is a required argument to MessageDao.find()');
-    assert.notOk(this.store.messageStore.models.message.findByPk.called);
-  });
+      this.dao.delete();
+    }, '`id` is a required argument to MessageDao.delete()');
 
-  test('No Data', async function() {
-    this.store.messageStore.models.message.findByPk = stub().resolves();
-    const messages = await this.dao.find({}, 8768687);
-
-    assert.deepEqual(messages, undefined);
+    assert.notOk(this.store.messageStore.models.message.destroy.called);
   });
 
   test('Data Returns', async function() {
-    this.store.messageStore.models.message.findByPk = stub().resolves(
+    this.store.messageStore.models.message.destroy = stub().resolves(
       messageData()
     );
-    const messages = await this.dao.find({}, 1);
+    const messages = await this.dao.delete({}, 1);
+
+    assert.ok(
+      this.store.messageStore.models.message.destroy.calledWith({
+        where: { id: 1 }
+      })
+    );
 
     assert.deepEqual(messages, messageData());
   });

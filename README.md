@@ -6,13 +6,18 @@ ExampleNodeJSApp - Belt and Braces style example node app
 
 # SYNOPSIS
 
+    // Run Dev server
     npm run dev:dockerize
 
     curl localhost:9000/messages -XPUT -H'Accept: application/json' -H'Content-type: application/json' -d'{"text": "This is a test 📙", "owner": 1}'
     curl localhost:9000/messages/1 -XGET -H'Accept: application/json'
 
+
+    // Run Full integration and unit tests
     npm run test:dockerize
 
+    // run unit tests locally
+    npm install
     npm run test:unit
 
 

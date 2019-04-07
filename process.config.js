@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'messengeStore',
+      name: 'messageStore',
       script: 'bin/server.js',
       exec_mode: 'cluster',
       max_restarts: 5,

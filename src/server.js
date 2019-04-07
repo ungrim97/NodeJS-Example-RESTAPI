@@ -1,3 +1,4 @@
+'use strict';
 // External Libs
 const compress = require('koa-compress');
 const Koa = require('koa');

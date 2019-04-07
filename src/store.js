@@ -1,3 +1,4 @@
+'use strict';
 const messageStore = require('./store/message-store');
 /**
  * Object encapsulating access to all data stores

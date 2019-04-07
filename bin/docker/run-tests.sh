@@ -12,5 +12,3 @@ npm run -s test:integration
 # Create coverage report and store in artifacts
 echo "Running coverage. Report stored in coverage.lcov"
 exec npm run -s coverage -- --reporter=text-lcov > artifacts/coverage.lcov
-
-exit $status
