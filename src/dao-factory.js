@@ -1,3 +1,4 @@
+'use strict';
 const Promise = require('bluebird');
 const Message = require('./dao/message');
 

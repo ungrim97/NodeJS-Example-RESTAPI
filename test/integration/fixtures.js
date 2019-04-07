@@ -1,3 +1,4 @@
+'use strict';
 const fixtureData = require('../../database/fixtures/messagedata.fixture');
 
 module.exports = {

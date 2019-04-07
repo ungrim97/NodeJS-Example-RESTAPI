@@ -1,3 +1,4 @@
+'use strict';
 const assert = require('chai').assert;
 const config = require('config');
 const fs = require('fs');
@@ -16,7 +17,7 @@ const store = new Store(config.get('store'));
 suite('/messages/:id', function() {
   suiteSetup(async function() {
     this.authToken = jwt.sign(
-      { username: 'testUser' },
+      { name: 'testUser' },
       fs.readFileSync('test/auth-private.key'),
       { algorithm: 'ES256' }
     );
@@ -29,7 +30,7 @@ suite('/messages/:id', function() {
   });
 
   suite('DELETE', function() {
-    test('default pages', function() {
+    test('NO CONTENT', function() {
       return request(app)
         .delete('/messages/1')
         .set('Accept', 'application/json')
@@ -44,6 +45,7 @@ suite('/messages/:id', function() {
             .then(total => assert.equal(total, 1));
         });
     });
+
     test('Not Found', function() {
       return request(app)
         .delete('/messages/7826722')
@@ -56,7 +58,7 @@ suite('/messages/:id', function() {
   });
 
   suite('GET', function() {
-    test('default pages', function() {
+    test('OK', function() {
       return request(app)
         .get('/messages/1')
         .set('Accept', 'application/json')
@@ -87,7 +89,7 @@ suite('/messages/:id', function() {
 suite('/messages', function() {
   suiteSetup(async function() {
     this.authToken = jwt.sign(
-      { username: 'testUser' },
+      { name: 'testUser' },
       fs.readFileSync('test/auth-private.key'),
       { algorithm: 'ES256' }
     );
@@ -125,6 +127,7 @@ suite('/messages', function() {
           ]);
         });
     });
+
     test('limit=1&page=2', function() {
       return request(app)
         .get('/messages?page=2&limit=1')
@@ -141,6 +144,30 @@ suite('/messages', function() {
               updatedAt: '2019-01-01T00:00:00.000Z'
             }
           ]);
+        });
+    });
+  });
+
+  suite('POST', function() {
+    test('CREATED', function() {
+      return request(app)
+        .post('/messages')
+        .set('Accept', 'application/json')
+        .set('Content-type', 'application/json')
+        .set('Authorization', 'Bearer ' + this.authToken)
+        .send({
+          text: 'This is another test 📙',
+          owner: '2'
+        })
+        .then(res => {
+          assert.equal(res.status, status.CREATED);
+          assert.equal(res.headers['location'], '/messages/3');
+        })
+        .then(() => {
+          // Check db is changed
+          store.messageStore.models.message
+            .count()
+            .then(total => assert.equal(total, 3));
         });
     });
   });

@@ -1,3 +1,4 @@
+'use strict';
 module.exports = class Message {
   constructor(args) {
     this.id = args.id;
@@ -10,6 +11,59 @@ module.exports = class Message {
   }
 
   /* Instance Methods */
+
+  /**
+   * Create a single message
+   *
+   * @args {Object} deps.daoFac - Dao Factory
+   * @args {Object} deps.timings - Instance of a Koa Server Timings object (optional)
+   * @returns {Promise<Message>} - Resolves a Message object
+   */
+  create(deps) {
+    if (!deps.daoFac) {
+      throw new Error(
+        '`deps.daoFac` is a required argument to message.create()'
+      );
+    }
+
+    if (this.id) {
+      throw new Error(
+        'Cannot call message.create() on message already in storage'
+      );
+    }
+
+    if (deps.timings) {
+      deps.timings.startSpan('message:create');
+    }
+
+    return deps.daoFac
+      .daoFor('message')
+      .then(dao => {
+        return dao.create(deps, {
+          createdBy: this.createdBy,
+          text: this.text,
+          owner: this.owner
+        });
+      })
+      .then(message => {
+        if (deps.timings) {
+          deps.timings.stopSpan('message:create');
+        }
+
+        if (!message) {
+          throw Error('Failure to retrieve newly created message');
+        }
+
+        return new Message(message);
+      })
+      .catch(error => {
+        if (deps.timings) {
+          deps.timings.stopSpan('message:create');
+        }
+
+        throw error;
+      });
+  }
 
   /**
    * Delete a single message

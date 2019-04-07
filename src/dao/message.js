@@ -1,3 +1,4 @@
+'use strict';
 const Promise = require('bluebird');
 
 /**
@@ -82,6 +83,55 @@ module.exports = class MessageDao {
       .catch(error => {
         if (deps && deps.timings) {
           deps.timings.stopSpan('messageDao:delete');
+        }
+
+        throw error;
+      });
+  }
+
+  /**
+
+   * Create a new message in storage
+   *
+   * @args {Object} deps.timings - Instance of a Koa Server Timings object (option)
+   * @args (string) args.text - Text data of the message (required)
+   * @args (string) args.owner - onder identifier in remote system
+   * @args (string) args.createdBy - Remote System identifier
+   */
+  create(deps, args) {
+    deps = deps || {};
+    args = args || {};
+    if (deps.timings) {
+      deps.timings.startSpan('messageDao:create');
+    }
+
+    for (const arg of ['owner', 'text', 'createdBy']) {
+      if (!args[arg]) {
+        throw new Error(
+          `\`${arg}\` is a required argument to MessageDao.create()`
+        );
+      }
+    }
+
+    return this.store.messageStore.models.message
+      .create({
+        text: args.text,
+        createdBy: args.createdBy,
+        updatedBy: args.createdBy,
+        owner: args.owner
+      })
+
+      .then(message => {
+        if (deps.timings) {
+          deps.timings.stopSpan('messageDao:create');
+        }
+
+        return message;
+      })
+
+      .catch(error => {
+        if (deps.timings) {
+          deps.timings.stopSpan('messageDao:create');
         }
 
         throw error;
