@@ -28,6 +28,33 @@ suite('/messages/:id', function() {
     fixtures.depopulate(store);
   });
 
+  suite('DELETE', function() {
+    test('default pages', function() {
+      return request(app)
+        .delete('/messages/1')
+        .set('Accept', 'application/json')
+        .set('Authorization', 'Bearer ' + this.authToken)
+        .then(res => {
+          assert.equal(res.status, status.NO_CONTENT);
+        })
+        .then(() => {
+          // Check db is changed
+          store.messageStore.models.message
+            .count()
+            .then(total => assert.equal(total, 1));
+        });
+    });
+    test('Not Found', function() {
+      return request(app)
+        .delete('/messages/7826722')
+        .set('Accept', 'application/json')
+        .set('Authorization', 'Bearer ' + this.authToken)
+        .then(res => {
+          assert.ok(res.status, status.NOT_FOUND);
+        });
+    });
+  });
+
   suite('GET', function() {
     test('default pages', function() {
       return request(app)
