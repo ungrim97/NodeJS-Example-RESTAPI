@@ -3,7 +3,7 @@ const stub = require('sinon').stub;
 
 const MessageDao = require('../../../../src/dao/message');
 
-suite('totalMessages', function() {
+suite('DAO: MessageDao.totalMessages()', function() {
   setup(function() {
     this.store = {
       messageStore: {
