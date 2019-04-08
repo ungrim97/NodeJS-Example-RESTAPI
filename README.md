@@ -4,13 +4,17 @@
 
 ExampleNodeJSApp - Belt and Braces style example node app
 
+# VERSION
+
+1.0.0
+
 # SYNOPSIS
 
     // Run Dev server
     npm run dev:docker:start
 
     // Generate data
-    npm run dev:fixtures:populate:docker
+    npm run dev:fixtures:populate:dockerize
 
     // Generate JWT string
     npm run dev:jwt:generate
@@ -51,11 +55,18 @@ production service designs
 
 The Application can run in a docker container (1 for the application and 1 for the DB)
 
+    npm run dev:db:start
+    npm run dev:db:stop
 The DB is available on 127.0.0.1:4406
 
+    npm run dev:docker:start
+    npm run dev:docker:stop
 The Application is available on 127.0.0.1:9000
 
-# Runnings locally
+Starting the application server will automatically bring up the DB container
+upon which if depends
+
+# Running locally
 
 You can run the dev server locally via the following commands
 
