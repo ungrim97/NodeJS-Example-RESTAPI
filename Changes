@@ -1,3 +1,8 @@
+2019-04-08 11:33
+
+    - Added POST /messages endpoint
+    - Added PUT /messages/:id endpoint
+
 2019-04-07 17:05
 
     - Added GET /messages enpoint
