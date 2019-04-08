@@ -1,3 +1,8 @@
+1.0.0 2019-04-08 17:27
+
+    - Add OpenAPI version 3 docs
+    - Add GET /swagger endpoint to run SwaggerUI
+
 0.3.1 2019-04-08 11:42
 
     - Fix: Updated codecov badge in README
