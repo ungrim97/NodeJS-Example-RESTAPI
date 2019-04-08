@@ -51,6 +51,57 @@ module.exports = config => {
     ctx.status = status.FORBIDDEN;
   });
 
+  /** PUT /messages/:id
+   *
+   * Update an existing message
+   *
+   * @param {integer} text - The text of the message
+   * @param {string} owner - The id of the owner in the remote system
+   */
+  router.put('/messages/:id', bodyParser(), ctx => {
+    ctx.state.timings.startSpan('updateMessage');
+
+    switch (ctx.is('application/json')) {
+      case 'application/json':
+        break;
+
+      default:
+        ctx.throw(status.NOT_ACCEPTABLE);
+    }
+
+    const messageData = ctx.request.body;
+    for (const arg of ['text', 'owner']) {
+      if (!messageData[arg]) {
+        ctx.throw(status.BAD_REQUEST);
+      }
+    }
+    messageData.updatedBy = ctx.state.user.name;
+
+    const dependencies = {
+      daoFac: ctx.daoFac,
+      timings: ctx.state.timings
+    };
+
+    return Message.find(dependencies, ctx.params.id)
+      .then(message => {
+        if (!message) {
+          ctx.throw(status.NOT_FOUND);
+        }
+
+        return message;
+      })
+      .then(message => message.update(dependencies, messageData))
+      .then(() => {
+        ctx.status = status.NO_CONTENT;
+        ctx.state.timings.stopSpan('updateMessage');
+      })
+      .catch(error => {
+        ctx.state.timings.stopSpan('updateMessage');
+
+        throw error;
+      });
+  });
+
   /** POST /messages
    *
    * Create a new message
