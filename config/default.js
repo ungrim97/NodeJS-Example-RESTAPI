@@ -14,6 +14,7 @@ module.exports = {
       }
     }
   },
-  port: process.env.APP_PORT || 3000,
+  port: process.env.MS_PORT || 3000,
+  appBaseUrl: process.env.MS_BASE_URL || 'http://localhost',
   version: '0.3.1'
 };

@@ -1,0 +1,393 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "NodeJs Example RESTAPI",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/healthcheck": {
+      "get": {
+        "tags": [
+          "Healthcheck"
+        ],
+        "description": "Returns server status",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Healthcheck"
+            }
+          }
+        }
+      }
+    },
+    "/messages/{id}": {
+      "put": {
+        "tags": [
+          "Message Item"
+        ],
+        "description": "Updated an existing message",
+        "produces": "application/json",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Message/properties/id"
+            }
+          },
+          {
+            "name": "text",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Message/properties/text"
+            }
+          },
+          {
+            "name": "owner",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Message/properties/owner"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/NoContent"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Message Item"
+        ],
+        "description": "Delete a message",
+        "produces": "application/json",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Message/properties/id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/NoContent"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Message Item"
+        ],
+        "description": "Retrieve a message",
+        "produces": "application/json",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Message/properties/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Item retrieved",
+            "schema": {
+              "$ref": "#/components/schemas/Message"
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/messages": {
+      "post": {
+        "tags": [
+          "Messages Collection"
+        ],
+        "description": "Create a message",
+        "produces": "application/json",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Message/properties/id"
+            }
+          },
+          {
+            "name": "text",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Message/properties/text"
+            }
+          },
+          {
+            "name": "owner",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Message/properties/owner"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Messages Collection"
+        ],
+        "description": "Retrieve messages",
+        "produces": "application/json",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "example": 1,
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "example": 50,
+              "maximum": 100,
+              "default": 0,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Collection retrieved",
+            "schema": {
+              "content": {
+                "type": "object",
+                "properties": {
+                  "messages": {
+                    "type": "array",
+                    "schema": {
+                      "$ref": "#/components/schemas/Message"
+                    }
+                  },
+                  "page": {
+                    "type": "object",
+                    "properties": {
+                      "pages": {
+                        "type": "array",
+                        "schema": {
+                          "i$ref": "#/components/schemas/pages"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Healthcheck": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "ok"
+        },
+        "version": {
+          "type": "string",
+          "example": "1.0.0"
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "NotFound": {
+        "description": "Message not found"
+      },
+      "NoContent": {
+        "description": "Action successful"
+      },
+      "Created": {
+        "description": "Item created"
+      },
+      "BadRequest": {
+        "description": "Input parameters messing"
+      },
+      "NotAcceptable": {
+        "description": "invalid Accepts/Accepts-Charset/Content-type"
+      },
+      "Unauthorized": {
+        "description": "JWT Invalid or missing"
+      },
+      "Forbidden": {
+        "description": "JWT payload does not include a name"
+      }
+    },
+    "schemas": {
+      "Message": {
+        "type": "object",
+        "required": [
+          "text",
+          "owner"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Identifier of Message",
+            "example": 1
+          },
+          "text": {
+            "type": "string",
+            "description": "Message text",
+            "example": "this is a message"
+          },
+          "owner": {
+            "type": "owner",
+            "description": "Id of message owner in remote system",
+            "example": "123123"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Time Message was created",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Time message was last updated",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "description": "Name of the system that created the message",
+            "type": "string"
+          },
+          "updatedBy": {
+            "description": "Name of the system that last updated the message",
+            "type": "string"
+          }
+        }
+      },
+      "Pages": {
+        "description": "Available page links",
+        "properties": {
+          "number": {
+            "type": "integer",
+            "description": "Number of the page",
+            "example": 1
+          },
+          "url": {
+            "type": "string",
+            "description": "URL to retrieve a page",
+            "example": "/messages?page=1&limit=10"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "tags": []
+}

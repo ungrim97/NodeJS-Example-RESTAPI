@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     image: message_app:dev
     environment:
-      APP_PORT: 9000
+      MS_PORT: 9000
       MS_DB_USER: message_app
       MS_DB_PASS: message_app_password
       MS_DB_HOST: devMessageStoreDB

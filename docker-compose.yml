@@ -8,7 +8,7 @@ services:
     image: message_app:latest
     container_name: message_app
     environment:
-      APP_PORT: 9000
+      MS_PORT: 9000
       MS_DB_PASS:
       MS_DB_USER:
       MS_DB_HOST:

@@ -13,7 +13,7 @@ module.exports = {
       min_uptime: 5000,
       instance_var: 'PM2_APP_INSTANCE',
       env: {
-        PORT: 5000,
+        MS_PORT: 9000,
         watch: true,
         NODE_ENV: 'development'
       }

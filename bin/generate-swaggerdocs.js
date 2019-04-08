@@ -1,5 +1,7 @@
 'use strict';
 const swaggerJSDoc = require('swagger-jsdoc');
+const fs = require('fs');
+const YAML = require('yaml');
 
 const baseRouter = __dirname + '/../src/router/base.js';
 const messageRouter = __dirname + '/../src/router/message.js';
@@ -18,4 +20,25 @@ const options = {
 
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
 const swaggerSpec = swaggerJSDoc(options);
-console.log(swaggerSpec);
+fs.writeFile(
+  __dirname + '/../api-docs/openapi.yml',
+  '---\n' + YAML.stringify(swaggerSpec),
+  error => {
+    if (error) {
+      console.error(error);
+    }
+
+    console.log('Generated api-docs/openapi.yml');
+  }
+);
+fs.writeFile(
+  __dirname + '/../api-docs/openapi.json',
+  JSON.stringify(swaggerSpec, null, 2),
+  error => {
+    if (error) {
+      console.error(error);
+    }
+
+    console.log('Generated api-docs/openapi.json');
+  }
+);

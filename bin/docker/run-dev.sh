@@ -2,4 +2,4 @@
 ./bin/docker/run-migrations.sh
 
 # Start dev app
-npm run dev
+exec npm run dev:start
