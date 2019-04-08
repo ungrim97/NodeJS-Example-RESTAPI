@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/ungrim97/NodeJS-Example-RESTAPI.svg?style=svg)](https://circleci.com/gh/ungrim97/NodeJS-Example-RESTAPI) [![codecov](https://codecov.io/gh/ungrim97/api_example_app/branch/master/graph/badge.svg)](https://codecov.io/gh/ungrim97/api_example_app)
+[![CircleCI](https://circleci.com/gh/ungrim97/NodeJS-Example-RESTAPI.svg?style=svg)](https://circleci.com/gh/ungrim97/NodeJS-Example-RESTAPI) [![codecov](https://codecov.io/gh/ungrim97/NodeJs-Example-RESTAPI/branch/master/graph/badge.svg)](https://codecov.io/gh/ungrim97/NodeJs-Example-RESTAPI)
 
 # NAME
 

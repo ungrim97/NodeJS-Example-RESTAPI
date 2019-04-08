@@ -15,5 +15,5 @@ module.exports = {
     }
   },
   port: process.env.APP_PORT || 3000,
-  version: '0.3.0'
+  version: '0.3.1'
 };

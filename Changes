@@ -1,19 +1,23 @@
-2019-04-08 11:33
+0.3.1 2019-04-08 11:42
+
+    - Fix: Updated codecov badge in README
+
+0.3.0 2019-04-08 11:33
 
     - Added POST /messages endpoint
     - Added PUT /messages/:id endpoint
 
-2019-04-07 17:05
+0.2.0 2019-04-07 17:05
 
     - Added GET /messages enpoint
     - Added GET /messages/:id endpoint
     - Added DELETE /messages/:id endpoint
 
-2019-04-05 21:35
+0.1.1 2019-04-05 21:35
 
     - Fix race condition uploading code coverage to codecov
 
-2019-04-05 15:37
+0.1.0 2019-04-05 15:37
 
     - Add docker support. Container for DB and application, as well as for testing
     - Add circleci support. CI running on all commits with codecov coverage
