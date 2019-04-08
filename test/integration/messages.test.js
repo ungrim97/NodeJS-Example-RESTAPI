@@ -30,10 +30,42 @@ suite('/messages/:id', function() {
   });
 
   suite('PUT', function() {
-    test('NO CONTENT', function() {
-      store.messageStore.models.message.findByPk(1).then(message => {
+    suite('BAD REQUEST', function() {
+      test('missing text', function() {
+        return request(app)
+          .put('/messages/1')
+          .set('Accept', 'application/json')
+          .set('Content-type', 'application/json')
+          .set('Authorization', 'Bearer ' + this.authToken)
+          .send({
+            owner: '2'
+          })
+          .then(res => {
+            assert.equal(res.status, status.BAD_REQUEST);
+          });
+      });
+      test('missing owner', function() {
+        return request(app)
+          .put('/messages/1')
+          .set('Accept', 'application/json')
+          .set('Content-type', 'application/json')
+          .set('Authorization', 'Bearer ' + this.authToken)
+          .send({
+            text: 'This is another test 📙 updated'
+          })
+          .then(res => {
+            assert.equal(res.status, status.BAD_REQUEST);
+          });
+      });
+    });
+    test('NO CONTENT', async function() {
+      await store.messageStore.models.message.findByPk(1).then(message => {
+        assert.ok(message);
         // Ensure fixture data we are testing against is as expected
-        assert.equal(message.updatedAt, '2019-01-01T00:00:00.000Z');
+        assert.equal(
+          message.updatedAt.toISOString(),
+          '2019-01-01T00:00:00.000Z'
+        );
       });
 
       return request(app)

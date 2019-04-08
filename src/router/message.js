@@ -69,13 +69,19 @@ module.exports = config => {
         ctx.throw(status.NOT_ACCEPTABLE);
     }
 
+    const messageData = ctx.request.body;
+    for (const arg of ['text', 'owner']) {
+      if (!messageData[arg]) {
+        ctx.throw(status.BAD_REQUEST);
+      }
+    }
+    messageData.updatedBy = ctx.state.user.name;
+
     const dependencies = {
       daoFac: ctx.daoFac,
       timings: ctx.state.timings
     };
 
-    const messageData = ctx.request.body;
-    messageData.updatedBy = ctx.state.user.name;
     return Message.find(dependencies, ctx.params.id)
       .then(message => {
         if (!message) {
