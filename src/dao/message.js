@@ -7,7 +7,6 @@ const Promise = require('bluebird');
  * @constructor
  * @args {Object} store - Instance of the store object
  */
-
 module.exports = class MessageDao {
   constructor(store) {
     if (!store) {
@@ -90,7 +89,58 @@ module.exports = class MessageDao {
   }
 
   /**
+   *  Update a message in storage
+   *
+   * @args {Object} deps.timings - Instance of a Koa Server Timings object (option)
+   * @args {integer} id - id of the message to update
+   * @args (string) args.text - Text data of the message
+   * @args (string) args.owner - onder identifier in remote system
+   * @args (string) args.updatedBy - Remote System identifier (required)
+   */
+  update(deps, id, args) {
+    deps = deps || {};
 
+    if (deps.timings) {
+      deps.timings.startSpan('messageDao:update');
+    }
+
+    if (!id) {
+      throw new Error('`id` is a required argument to MessageDao.update()');
+    }
+
+    if (!args.updatedBy) {
+      throw new Error(
+        '`updatedBy` is a required argument to MessageDao.update()'
+      );
+    }
+
+    if (!args.text && !args.owner) {
+      throw new Error(
+        'MessageDao.update() expects `text` and/or `owner` arguments'
+      );
+    }
+
+    return this.store.messageStore.models.message
+      .update(Object.assign(args, { updatedAt: new Date() }), {
+        where: { id: id }
+      })
+      .then(message => {
+        if (deps.timings) {
+          deps.timings.stopSpan('messageDao:update');
+        }
+
+        return message;
+      })
+      .catch(error => {
+        if (deps.timings) {
+          deps.timings.stopSpan('messageDao:update');
+        }
+
+        throw error;
+      });
+  }
+
+  /**
    * Create a new message in storage
    *
    * @args {Object} deps.timings - Instance of a Koa Server Timings object (option)
@@ -120,7 +170,6 @@ module.exports = class MessageDao {
         updatedBy: args.createdBy,
         owner: args.owner
       })
-
       .then(message => {
         if (deps.timings) {
           deps.timings.stopSpan('messageDao:create');
@@ -128,7 +177,6 @@ module.exports = class MessageDao {
 
         return message;
       })
-
       .catch(error => {
         if (deps.timings) {
           deps.timings.stopSpan('messageDao:create');

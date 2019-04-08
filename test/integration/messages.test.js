@@ -29,6 +29,35 @@ suite('/messages/:id', function() {
     fixtures.depopulate(store);
   });
 
+  suite('PUT', function() {
+    test('NO CONTENT', function() {
+      store.messageStore.models.message.findByPk(1).then(message => {
+        // Ensure fixture data we are testing against is as expected
+        assert.equal(message.updatedAt, '2019-01-01T00:00:00.000Z');
+      });
+
+      return request(app)
+        .put('/messages/1')
+        .set('Accept', 'application/json')
+        .set('Content-type', 'application/json')
+        .set('Authorization', 'Bearer ' + this.authToken)
+        .send({
+          text: 'This is another test 📙 updated',
+          owner: '2'
+        })
+        .then(res => {
+          assert.equal(res.status, status.NO_CONTENT);
+        })
+        .then(() => {
+          // Check db is changed
+          store.messageStore.models.message.findByPk(1).then(message => {
+            assert.equal(message.text, 'This is another test 📙 updated');
+            assert.notEqual(message.updatedAt, '2019-01-01T00:00:00.000Z');
+          });
+        });
+    });
+  });
+
   suite('DELETE', function() {
     test('NO CONTENT', function() {
       return request(app)
