@@ -25,11 +25,11 @@ winston.loggers.add('dao', {
 });
 
 let accessTransport = new winston.transports.Console(transportOpts);
-if (process.env.ACCESS_LOG_FILE) {
+if (process.env.MS_ACCESS_LOG_FILE) {
   accessTransport = new winston.transports.File(
     Object.assign(
       {
-        filename: process.env.ACCESS_LOG_FILE
+        filename: process.env.MS_ACCESS_LOG_FILE
       },
       transportOpts
     )

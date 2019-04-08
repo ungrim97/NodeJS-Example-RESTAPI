@@ -1,10 +1,15 @@
 'use strict';
 // External Libs
 const compress = require('koa-compress');
+const conditional = require('koa-conditional-get');
+const etags = require('koa-etag');
 const Koa = require('koa');
+const serve = require('koa-static');
 const serverTiming = require('koa-server-timing');
 const status = require('http-status');
+const swaggerUI = require('koa2-swagger-ui');
 const morgan = require('koa-morgan');
+const mount = require('koa-mount');
 
 // Internal Libs
 const logger = require('./logger');
@@ -21,12 +26,24 @@ const messageRouter = require('./router/message');
 morgan.token('session_user', req => (req.user ? req.user.username : null));
 morgan.token('reqid', req => req.reqid);
 
+/**
+ * @class
+ * @param {Object} config - Application config
+ * @property {Object} app - Koa instance
+ * @property {Object} config - Application config
+ */
 module.exports = class Server {
   constructor(config) {
     this.app = new Koa();
     this.config = config;
   }
 
+  /**
+   * Fully initialise the Web Server
+   *
+   * @constructs
+   * @param {Object} config - Application config
+   */
   static bootstrap(config) {
     const server = new Server(config);
     server.init();
@@ -34,17 +51,50 @@ module.exports = class Server {
     return server;
   }
 
+  /**
+   * Initialise application middleware/routes etc
+   */
   async init() {
-    // Base app Middleware
+    // Add Server timings header
     this.app.use(serverTiming());
+
+    // Output request logs
     this.app.use(
       morgan(
         ':remote-addr :session_user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ":reqid"',
         { stream: logger.accesslogStream }
       )
     );
+
+    // Add unique requestId header
     this.app.use(requestId());
+
+    // Gzip responses
     this.app.use(compress());
+
+    // Conditional GET support
+    this.app.use(conditional());
+    this.app.use(etags());
+
+    // Static
+    this.app.use(mount('/api-docs', serve(__dirname + '/../api-docs')));
+
+    const swaggerURL = new URL(
+      '/api-docs/openapi.json',
+      this.config.get('appBaseUrl')
+    );
+    if (process.env.NODE_ENV !== 'production') {
+      swaggerURL.port = this.config.get('port');
+    }
+    // Server Swagger UI/Docs
+    this.app.use(
+      swaggerUI({
+        routePrefix: '/swagger',
+        swaggerOptions: {
+          url: swaggerURL
+        }
+      })
+    );
 
     // Add dataStore and DaoFactory
     this.app.use(datastore(this.config.get('store')));

@@ -87,23 +87,28 @@ suite('Model: Message.getAll()', function() {
     assert.deepEqual(messages, []);
   });
 
-  test('Data Returns', async function() {
-    const messages = await Message.getAll(
-      {
-        daoFac: {
-          daoFor: stub()
-            .usingPromise(Promise)
-            .resolves({
-              getAll: stub()
-                .usingPromise(Promise)
-                .resolves(messageData())
-            })
-        }
-      },
-      {}
-    );
+  suite('Data Returns', function() {
+    test('No Limit', async function() {
+      const daoStub = stub()
+        .usingPromise(Promise)
+        .resolves(messageData());
 
-    assert.deepEqual(messages, messageData());
+      const messages = await Message.getAll(
+        {
+          daoFac: {
+            daoFor: stub()
+              .usingPromise(Promise)
+              .resolves({
+                getAll: daoStub
+              })
+          }
+        },
+        {}
+      );
+
+      assert.ok(daoStub.calledWith);
+      assert.deepEqual(messages, messageData());
+    });
   });
 });
 

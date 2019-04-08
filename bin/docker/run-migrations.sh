@@ -1,3 +1,3 @@
 # Run Migrations
 echo "Running DB Migrations"
-npm run migrate:up
+exec npm run migrate:up
