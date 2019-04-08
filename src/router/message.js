@@ -163,16 +163,24 @@ module.exports = config => {
    *         required: true
    *         schema:
    *           $ref: '#/components/schemas/Message/properties/id'
-   *       - name: text
-   *         in: body
-   *         required: true
-   *         schema:
-   *           $ref: '#/components/schemas/Message/properties/text'
-   *       - name: owner
-   *         in: body
-   *         required: true
-   *         schema:
-   *           $ref: '#/components/schemas/Message/properties/owner'
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               text:
+   *                 required: true
+   *                 schema:
+   *                   $ref: '#/components/schemas/Message/properties/text'
+   *               owner:
+   *                 required: true
+   *                 schema:
+   *                   $ref: '#/components/schemas/Message/properties/owner'
+   *             example:
+   *               text: 'This is a test message'
+   *               owner: '12234'
    *     responses:
    *       '204':
    *         $ref: '#/components/responses/NoContent'
@@ -249,22 +257,24 @@ module.exports = config => {
    *       - Messages Collection
    *     description: Create a message
    *     produces: application/json
-   *     parameters:
-   *       - name: id
-   *         in: path
-   *         required: true
-   *         schema:
-   *           $ref: '#/components/schemas/Message/properties/id'
-   *       - name: text
-   *         in: body
-   *         required: true
-   *         schema:
-   *           $ref: '#/components/schemas/Message/properties/text'
-   *       - name: owner
-   *         in: body
-   *         required: true
-   *         schema:
-   *           $ref: '#/components/schemas/Message/properties/owner'
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               text:
+   *                 required: true
+   *                 schema:
+   *                   $ref: '#/components/schemas/Message/properties/text'
+   *               owner:
+   *                 required: true
+   *                 schema:
+   *                   $ref: '#/components/schemas/Message/properties/owner'
+   *             example:
+   *               text: 'This is a test message'
+   *               owner: '12234'
    *     responses:
    *       '201':
    *         $ref: '#/components/responses/Created'
