@@ -1,6 +1,6 @@
 {
   "name": "NodeJS-Examole-RESTAPI",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Example RESTAPI",
   "main": "bin/server.js",
   "scripts": {
