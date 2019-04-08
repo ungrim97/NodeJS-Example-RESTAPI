@@ -2,13 +2,13 @@
 const assert = require('chai').assert;
 const Promise = require('bluebird');
 const stub = require('sinon').stub;
-
 const Message = require('../../../../src/model/message');
 
-suite('Model: Message.delete()', function() {
+suite('Model: Message.create()', function() {
   setup(function() {
-    this.message = new Message(messageData());
+    this.message = new Message(createData());
   });
+
   suite('timings', function() {
     test('Resolves', async function() {
       const timingsStub = {
@@ -16,13 +16,13 @@ suite('Model: Message.delete()', function() {
         stopSpan: stub()
       };
 
-      const messages = await this.message.delete({
+      const messages = await this.message.create({
         timings: timingsStub,
         daoFac: {
           daoFor: stub()
             .usingPromise(Promise)
             .resolves({
-              delete: stub()
+              create: stub()
                 .usingPromise(Promise)
                 .resolves(messageData())
             })
@@ -40,14 +40,14 @@ suite('Model: Message.delete()', function() {
       };
 
       await this.message
-        .delete(
+        .create(
           {
             timings: timingsStub,
             daoFac: {
               daoFor: stub()
                 .usingPromise(Promise)
                 .resolves({
-                  delete: stub()
+                  create: stub()
                     .usingPromise(Promise)
                     .rejects('error')
                 })
@@ -66,67 +66,86 @@ suite('Model: Message.delete()', function() {
 
   test('No Dao', function() {
     assert.throws(() => {
-      this.message.delete({}, 1);
-    }, '`deps.daoFac` is a required argument to message.delete()');
+      this.message.create({}, 1);
+    }, '`deps.daoFac` is a required argument to message.create()');
   });
 
-  test('No id', function() {
+  test('Has id', function() {
+    this.message.id = 1;
+
     assert.throws(() => {
-      this.message.id = undefined;
-      this.message.delete({
+      this.message.create({
         daoFac: {
           daoFor: stub()
             .usingPromise(Promise)
             .resolves({
-              delete: stub()
+              create: stub()
                 .usingPromise(Promise)
                 .resolves(null)
             })
         }
       });
-    }, '`this.id` is a required argument to message.delete()');
+    }, 'Cannot call message.create() on message already in storage');
   });
 
   test('No Data Returned', async function() {
-    const deleteStub = stub()
+    const createStub = stub()
       .usingPromise(Promise)
       .resolves();
+
     const daoStub = stub()
       .usingPromise(Promise)
       .resolves({
-        delete: deleteStub
+        create: createStub
       });
 
-    const messages = await this.message.delete({
-      daoFac: {
-        daoFor: daoStub
-      }
-    });
+    await this.message
+      .create({
+        daoFac: {
+          daoFor: daoStub
+        }
+      })
+      .catch(error => {
+        assert.equal(error, 'Error: Failure to retrieve newly created message');
+      });
 
-    assert.ok(deleteStub.calledWith({ daoFac: { daoFor: daoStub } }, 1));
-    assert.deepEqual(messages, undefined);
+    assert.ok(
+      createStub.calledWith({ daoFac: { daoFor: daoStub } }, createData())
+    );
   });
 
   test('Data Returns', async function() {
-    const deleteStub = stub()
+    const createStub = stub()
       .usingPromise(Promise)
       .resolves(messageData());
+
     const daoStub = stub()
       .usingPromise(Promise)
       .resolves({
-        delete: deleteStub
+        create: createStub
       });
 
-    const messages = await this.message.delete({
+    const messages = await this.message.create({
       daoFac: {
         daoFor: daoStub
       }
     });
 
-    assert.ok(deleteStub.calledWith({ daoFac: { daoFor: daoStub } }, 1));
+    assert.ok(
+      createStub.calledWith({ daoFac: { daoFor: daoStub } }, createData())
+    );
+
     assert.deepEqual(messages, messageData());
   });
 });
+
+function createData() {
+  return {
+    text: 'test',
+    owner: '1',
+    createdBy: 'testUser'
+  };
+}
 
 function messageData() {
   return {

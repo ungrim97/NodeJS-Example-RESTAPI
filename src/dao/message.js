@@ -1,3 +1,4 @@
+'use strict';
 const Promise = require('bluebird');
 
 /**
@@ -6,7 +7,6 @@ const Promise = require('bluebird');
  * @constructor
  * @args {Object} store - Instance of the store object
  */
-
 module.exports = class MessageDao {
   constructor(store) {
     if (!store) {
@@ -82,6 +82,104 @@ module.exports = class MessageDao {
       .catch(error => {
         if (deps && deps.timings) {
           deps.timings.stopSpan('messageDao:delete');
+        }
+
+        throw error;
+      });
+  }
+
+  /**
+   *  Update a message in storage
+   *
+   * @args {Object} deps.timings - Instance of a Koa Server Timings object (option)
+   * @args {integer} id - id of the message to update
+   * @args (string) args.text - Text data of the message
+   * @args (string) args.owner - onder identifier in remote system
+   * @args (string) args.updatedBy - Remote System identifier (required)
+   */
+  update(deps, id, args) {
+    deps = deps || {};
+
+    if (deps.timings) {
+      deps.timings.startSpan('messageDao:update');
+    }
+
+    if (!id) {
+      throw new Error('`id` is a required argument to MessageDao.update()');
+    }
+
+    if (!args.updatedBy) {
+      throw new Error(
+        '`updatedBy` is a required argument to MessageDao.update()'
+      );
+    }
+
+    if (!args.text && !args.owner) {
+      throw new Error(
+        'MessageDao.update() expects `text` and/or `owner` arguments'
+      );
+    }
+
+    return this.store.messageStore.models.message
+      .update(Object.assign(args, { updatedAt: new Date() }), {
+        where: { id: id }
+      })
+      .then(message => {
+        if (deps.timings) {
+          deps.timings.stopSpan('messageDao:update');
+        }
+
+        return message;
+      })
+      .catch(error => {
+        if (deps.timings) {
+          deps.timings.stopSpan('messageDao:update');
+        }
+
+        throw error;
+      });
+  }
+
+  /**
+   * Create a new message in storage
+   *
+   * @args {Object} deps.timings - Instance of a Koa Server Timings object (option)
+   * @args (string) args.text - Text data of the message (required)
+   * @args (string) args.owner - onder identifier in remote system
+   * @args (string) args.createdBy - Remote System identifier
+   */
+  create(deps, args) {
+    deps = deps || {};
+    args = args || {};
+    if (deps.timings) {
+      deps.timings.startSpan('messageDao:create');
+    }
+
+    for (const arg of ['owner', 'text', 'createdBy']) {
+      if (!args[arg]) {
+        throw new Error(
+          `\`${arg}\` is a required argument to MessageDao.create()`
+        );
+      }
+    }
+
+    return this.store.messageStore.models.message
+      .create({
+        text: args.text,
+        createdBy: args.createdBy,
+        updatedBy: args.createdBy,
+        owner: args.owner
+      })
+      .then(message => {
+        if (deps.timings) {
+          deps.timings.stopSpan('messageDao:create');
+        }
+
+        return message;
+      })
+      .catch(error => {
+        if (deps.timings) {
+          deps.timings.stopSpan('messageDao:create');
         }
 
         throw error;

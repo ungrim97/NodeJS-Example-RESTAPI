@@ -1,3 +1,4 @@
+'use strict';
 const assert = require('chai').assert;
 const Promise = require('bluebird');
 const stub = require('sinon').stub;

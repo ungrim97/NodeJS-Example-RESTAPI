@@ -1,3 +1,4 @@
+'use strict';
 const assert = require('chai').assert;
 
 const DaoFac = require('../../../src/dao-factory');

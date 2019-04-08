@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 
 //module dependencies
 const config = require('config');

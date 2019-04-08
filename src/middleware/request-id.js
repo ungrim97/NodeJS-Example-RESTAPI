@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Middleware to add a short requestId
  */
