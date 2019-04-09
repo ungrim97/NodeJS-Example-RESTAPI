@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/ungrim97/NodeJS-Example-RESTAPI.svg?style=svg)](https://circleci.com/gh/ungrim97/NodeJS-Example-RESTAPI) [![codecov](https://codecov.io/gh/ungrim97/NodeJs-Example-RESTAPI/branch/master/graph/badge.svg)](https://codecov.io/gh/ungrim97/NodeJs-Example-RESTAPI) [![CodeFactor](https://www.codefactor.io/repository/github/ungrim97/nodejs-example-restapi/badge)](https://www.codefactor.io/repository/github/ungrim97/nodejs-example-restapi)
+[![CircleCI](https://circleci.com/gh/ungrim97/NodeJS-Example-RESTAPI.svg?style=svg)](https://circleci.com/gh/ungrim97/NodeJS-Example-RESTAPI) [![codecov](https://codecov.io/gh/ungrim97/NodeJs-Example-RESTAPI/branch/master/graph/badge.svg)](https://codecov.io/gh/ungrim97/NodeJs-Example-RESTAPI) [![CodeFactor](https://www.codefactor.io/repository/github/ungrim97/nodejs-example-restapi/badge)](https://www.codefactor.io/repository/github/ungrim97/nodejs-example-restapi) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 # NAME
 
