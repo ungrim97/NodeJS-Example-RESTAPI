@@ -79,19 +79,14 @@ module.exports = class Server {
     // Static
     this.app.use(mount('/api-docs', serve(__dirname + '/../api-docs')));
 
-    const swaggerURL = new URL(
-      '/api-docs/openapi.json',
-      this.config.get('appBaseUrl')
-    );
-    if (process.env.NODE_ENV !== 'production') {
-      swaggerURL.port = this.config.get('port');
-    }
-    // Server Swagger UI/Docs
+    // Serve Swagger UI/Docs
     this.app.use(
       swaggerUI({
-        routePrefix: '/swagger',
+        // Swagger UI path
+        routePrefix: '/swagger-ui',
         swaggerOptions: {
-          url: swaggerURL
+          // Docs path
+          url: '/api-docs/openapi.json'
         }
       })
     );
