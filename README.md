@@ -134,6 +134,10 @@ The following environment variables are available to configure the system
 
 - API Documentation testing (Dredd)
 
+- Application caching (node-cache)
+
+- Cache control headers
+
 # CONTRIBUTING
 
 Patches are both encouraged and welcome. All contributers are however asked to follow some simple
