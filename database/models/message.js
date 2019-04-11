@@ -1,3 +1,4 @@
+'use strict';
 const Model = require('sequelize').Model;
 
 module.exports = class Message extends Model {

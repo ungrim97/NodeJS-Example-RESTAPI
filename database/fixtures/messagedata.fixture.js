@@ -1,3 +1,4 @@
+'use strict';
 module.exports = message_store => {
   return message_store.models.message.bulkCreate([
     {

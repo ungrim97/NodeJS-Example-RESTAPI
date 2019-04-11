@@ -25,7 +25,7 @@
     "test:dockerize": "docker-compose -f docker-compose.test.yml up --force-recreate -V --build --abort-on-container-exit --exit-code-from testMessageStore",
     "test:integration": "NODE_ENV=testing nyc mocha test/integration/*",
     "test:unit": "NODE_ENV=testing nyc mocha test/unit/* test/eslint.test.js",
-    "tidy": "prettier --write '{bin,src,test,database,config}/**/*.js'"
+    "tidy": "prettier --write '{bin,src,test,database,config}/**/*.js' '*.js'"
   },
   "author": "Mike Eve",
   "license": "ISC",

@@ -21,9 +21,9 @@ ExampleNodeJSApp - Belt and Braces style example node app
 
     curl localhost:9000/messages -XPOST -H'Authorization: Bearer $JWT' -H'Accept: application/json' -H'Content-type: application/json' -d'{"text": "This is a test 📙", "owner": 1}'
     curl localhost:9000/messages/1 -XPUT -H'Authorization: Bearer $JWT' -H'Accept: application/json' -H'Content-type: application/json' -d'{"text": "This is a test 📙", "owner": 1}'
-    curl localhost:9000/messages -XGET -H'Authroization: Beaer $JWT' '-H'Accept: application/json'
-    curl localhost:9000/messages/1 -XGET -H'Authroization: Beaer $JWT' '-H'Accept: application/json'
-    curl localhost:9000/messages/1 -XDELETE -H'Authroization: Beaer $JWT' '-H'Accept: application/json'
+    curl localhost:9000/messages -XGET -H'Authroization: Bearer $JWT' -H'Accept: application/json'
+    curl localhost:9000/messages/1 -XGET -H'Authroization: Bearer $JWT' -H'Accept: application/json'
+    curl localhost:9000/messages/1 -XDELETE -H'Authroization: Bearer $JWT' -H'Accept: application/json'
 
     // SwaggerUI
     http://localhost:9000/swagger
