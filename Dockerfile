@@ -23,4 +23,4 @@ RUN mkdir .nyc_output
 
 EXPOSE 9000
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "start:pm2" ]
