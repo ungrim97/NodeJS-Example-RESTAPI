@@ -1,3 +1,7 @@
+{{NEXT}}
+
+    - Fix security issues with deps
+
 1.0.0 2019-04-08 17:27
 
     - Add OpenAPI version 3 docs
