@@ -1,6 +1,6 @@
 {
   "name": "NodeJS-Examole-RESTAPI",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "https://github.com/ungrim97/NodeJS-Example-RESTAPI",
   "description": "Example RESTAPI",
   "main": "bin/server.js",
@@ -16,16 +16,17 @@
     "dev:fixtures:populate:dockerize": "docker-compose -f docker-compose.dev.yml run devMessageStore npm run dev:fixtures:populate",
     "dev:jwt:generate": "NODE_ENV=development npx ./bin/generate-jwt.js",
     "dev:start": "NODE_ENV=development node bin/server.js",
-    "dev:start:pm2": "pm2 start process-dev.config.js",
+    "dev:start:pm2": "pm2-runtime start process-dev.config.js",
     "migrate:down": "npx sequelize db:migrate:undo",
     "migrate:reset": "npx sequelize db:migrate:undo:all",
     "migrate:up": "npx sequelize db:migrate",
     "start": "node bin/server.js",
+    "start:pm2": "pm2-runtime start process.config.js",
     "test": "NODE_ENV=testing mocha test/unit/* test/eslint.test.js",
     "test:dockerize": "docker-compose -f docker-compose.test.yml up --force-recreate -V --build --abort-on-container-exit --exit-code-from testMessageStore",
     "test:integration": "NODE_ENV=testing nyc mocha test/integration/*",
     "test:unit": "NODE_ENV=testing nyc mocha test/unit/* test/eslint.test.js",
-    "tidy": "prettier --write '{bin,src,test}/**/*.js'"
+    "tidy": "prettier --write '{bin,src,test,database,config}/**/*.js' '*.js'"
   },
   "author": "Mike Eve",
   "license": "ISC",
@@ -51,8 +52,8 @@
     "koa-static": "^5.0.0",
     "koa2-swagger-ui": "^2.13.2",
     "mysql2": "^1.6.5",
-    "sequelize": "^5.2.12",
-    "sequelize-cli": "^5.4.0",
+    "sequelize": "^5.3.3",
+    "sequelize-cli": "^5.5.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
@@ -66,7 +67,7 @@
     "prettier": "^1.16.4",
     "sinon": "^7.3.1",
     "supertest": "^4.0.2",
-    "swagger-jsdoc": "^3.2.8",
+    "swagger-jsdoc": "^3.2.9",
     "yaml": "^1.5.0"
   }
 }

@@ -19,6 +19,8 @@ services:
     networks:
       - devapp-network
     command: ./bin/docker/wait-for-db.sh ./bin/docker/run-dev.sh
+    volumes:
+      - .:/home/node/app
   devMessageStoreDB:
     container_name: message_store_devdb
     image: mysql:latest

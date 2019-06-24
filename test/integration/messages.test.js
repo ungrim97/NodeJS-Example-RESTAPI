@@ -25,8 +25,8 @@ suite('/messages/:id', function() {
   setup(async function() {
     await fixtures.populate(store);
   });
-  teardown(function() {
-    fixtures.depopulate(store);
+  teardown(async function() {
+    await fixtures.depopulate(store);
   });
 
   suite('PUT', function() {

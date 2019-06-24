@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/ungrim97/NodeJS-Example-RESTAPI.svg?style=svg)](https://circleci.com/gh/ungrim97/NodeJS-Example-RESTAPI) [![codecov](https://codecov.io/gh/ungrim97/NodeJs-Example-RESTAPI/branch/master/graph/badge.svg)](https://codecov.io/gh/ungrim97/NodeJs-Example-RESTAPI)
+[![CircleCI](https://circleci.com/gh/ungrim97/NodeJS-Example-RESTAPI.svg?style=svg)](https://circleci.com/gh/ungrim97/NodeJS-Example-RESTAPI) [![codecov](https://codecov.io/gh/ungrim97/NodeJs-Example-RESTAPI/branch/master/graph/badge.svg)](https://codecov.io/gh/ungrim97/NodeJs-Example-RESTAPI) [![CodeFactor](https://www.codefactor.io/repository/github/ungrim97/nodejs-example-restapi/badge)](https://www.codefactor.io/repository/github/ungrim97/nodejs-example-restapi) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 # NAME
 
@@ -21,9 +21,9 @@ ExampleNodeJSApp - Belt and Braces style example node app
 
     curl localhost:9000/messages -XPOST -H'Authorization: Bearer $JWT' -H'Accept: application/json' -H'Content-type: application/json' -d'{"text": "This is a test 📙", "owner": 1}'
     curl localhost:9000/messages/1 -XPUT -H'Authorization: Bearer $JWT' -H'Accept: application/json' -H'Content-type: application/json' -d'{"text": "This is a test 📙", "owner": 1}'
-    curl localhost:9000/messages -XGET -H'Authroization: Beaer $JWT' '-H'Accept: application/json'
-    curl localhost:9000/messages/1 -XGET -H'Authroization: Beaer $JWT' '-H'Accept: application/json'
-    curl localhost:9000/messages/1 -XDELETE -H'Authroization: Beaer $JWT' '-H'Accept: application/json'
+    curl localhost:9000/messages -XGET -H'Authroization: Bearer $JWT' -H'Accept: application/json'
+    curl localhost:9000/messages/1 -XGET -H'Authroization: Bearer $JWT' -H'Accept: application/json'
+    curl localhost:9000/messages/1 -XDELETE -H'Authroization: Bearer $JWT' -H'Accept: application/json'
 
     // SwaggerUI
     http://localhost:9000/swagger
@@ -133,6 +133,10 @@ The following environment variables are available to configure the system
 - JSDoc generation for models/dao
 
 - API Documentation testing (Dredd)
+
+- Application caching (node-cache)
+
+- Cache control headers
 
 # CONTRIBUTING
 

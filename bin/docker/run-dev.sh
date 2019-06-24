@@ -2,4 +2,4 @@
 ./bin/docker/run-migrations.sh
 
 # Start dev app
-exec npm run dev:start
+exec npm run dev:start:pm2

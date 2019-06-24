@@ -5,7 +5,7 @@ RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
-  && apt-get install -y mysql-client \
+  && apt-get install --no-install-recommends -y mysql-client \
   && apt-get clean \
 && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -23,4 +23,4 @@ RUN mkdir .nyc_output
 
 EXPOSE 9000
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "start:pm2" ]
