@@ -1,5 +1,9 @@
 {{NEXT}}
 
+1.0.2 2019-07-16 14:16
+
+    - Fix security issues with deps (Lodash & Sequelize)
+
 1.0.1 2019-06-24 12:12
 
     - Fix security issues with deps
