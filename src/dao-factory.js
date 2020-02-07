@@ -22,7 +22,7 @@ module.exports = class DaoFac {
    * Provides an easy lookup for DAO's in Business Objects
    *
    * @args {string} daoNam - Name of dao
-   * @returns {Promise<DAO>} - Promise that resolves to the DAO instance (or errors)
+   * @returns {DAO} - The DAO instance (or errors)
    */
   daoFor(daoName) {
     switch (daoName) {
