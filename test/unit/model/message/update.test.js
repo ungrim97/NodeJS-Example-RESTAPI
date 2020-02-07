@@ -20,13 +20,11 @@ suite('Model: Message.update()', function() {
         {
           timings: timingsStub,
           daoFac: {
-            daoFor: stub()
-              .usingPromise(Promise)
-              .resolves({
-                update: stub()
-                  .usingPromise(Promise)
-                  .resolves(Object.assign(messageData(), updateData))
-              })
+            daoFor: stub().returns({
+              update: stub()
+                .usingPromise(Promise)
+                .resolves(Object.assign(messageData(), updateData))
+            })
           }
         },
         updateData()
@@ -47,13 +45,11 @@ suite('Model: Message.update()', function() {
           {
             timings: timingsStub,
             daoFac: {
-              daoFor: stub()
-                .usingPromise(Promise)
-                .resolves({
-                  update: stub()
-                    .usingPromise(Promise)
-                    .rejects('error')
-                })
+              daoFor: stub().returns({
+                update: stub()
+                  .usingPromise(Promise)
+                  .rejects('error')
+              })
             }
           },
           updateData()
@@ -79,13 +75,11 @@ suite('Model: Message.update()', function() {
       this.message.update(
         {
           daoFac: {
-            daoFor: stub()
-              .usingPromise(Promise)
-              .resolves({
-                update: stub()
-                  .usingPromise(Promise)
-                  .resolves(null)
-              })
+            daoFor: stub().returns({
+              update: stub()
+                .usingPromise(Promise)
+                .resolves(null)
+            })
           }
         },
         updateData()
@@ -97,13 +91,11 @@ suite('Model: Message.update()', function() {
     assert.throws(() => {
       this.message.update({
         daoFac: {
-          daoFor: stub()
-            .usingPromise(Promise)
-            .resolves({
-              update: stub()
-                .usingPromise(Promise)
-                .resolves(null)
-            })
+          daoFor: stub().returns({
+            update: stub()
+              .usingPromise(Promise)
+              .resolves(null)
+          })
         }
       });
     }, 'message.update() expects at least `text` or `owner`');
@@ -114,11 +106,9 @@ suite('Model: Message.update()', function() {
       .usingPromise(Promise)
       .resolves();
 
-    const daoStub = stub()
-      .usingPromise(Promise)
-      .resolves({
-        update: updateStub
-      });
+    const daoStub = stub().returns({
+      update: updateStub
+    });
 
     await this.message
       .update(
@@ -147,11 +137,9 @@ suite('Model: Message.update()', function() {
       .usingPromise(Promise)
       .resolves(Object.assign(messageData(), updateData));
 
-    const daoStub = stub()
-      .usingPromise(Promise)
-      .resolves({
-        update: updateStub
-      });
+    const daoStub = stub().returns({
+      update: updateStub
+    });
 
     const messages = await this.message.update(
       {

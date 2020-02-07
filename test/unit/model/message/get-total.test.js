@@ -17,13 +17,11 @@ suite('Model: Message.getTotal()', function() {
         {
           timings: timingsStub,
           daoFac: {
-            daoFor: stub()
-              .usingPromise(Promise)
-              .resolves({
-                totalMessages: stub()
-                  .usingPromise(Promise)
-                  .resolves(5)
-              })
+            daoFor: stub().returns({
+              totalMessages: stub()
+                .usingPromise(Promise)
+                .resolves(5)
+            })
           }
         },
         {}
@@ -43,13 +41,11 @@ suite('Model: Message.getTotal()', function() {
         {
           timings: timingsStub,
           daoFac: {
-            daoFor: stub()
-              .usingPromise(Promise)
-              .resolves({
-                totalMessages: stub()
-                  .usingPromise(Promise)
-                  .rejects('error')
-              })
+            daoFor: stub().returns({
+              totalMessages: stub()
+                .usingPromise(Promise)
+                .rejects('error')
+            })
           }
         },
         {}
@@ -72,13 +68,11 @@ suite('Model: Message.getTotal()', function() {
     const count = await Message.getTotal(
       {
         daoFac: {
-          daoFor: stub()
-            .usingPromise(Promise)
-            .resolves({
-              totalMessages: stub()
-                .usingPromise(Promise)
-                .resolves(5)
-            })
+          daoFor: stub().returns({
+            totalMessages: stub()
+              .usingPromise(Promise)
+              .resolves(5)
+          })
         }
       },
       {}

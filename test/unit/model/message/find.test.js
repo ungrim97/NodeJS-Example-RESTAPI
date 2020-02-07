@@ -17,13 +17,11 @@ suite('Model: Message.find()', function() {
         {
           timings: timingsStub,
           daoFac: {
-            daoFor: stub()
-              .usingPromise(Promise)
-              .resolves({
-                find: stub()
-                  .usingPromise(Promise)
-                  .resolves(messageData())
-              })
+            daoFor: stub().returns({
+              find: stub()
+                .usingPromise(Promise)
+                .resolves(messageData())
+            })
           }
         },
         {}
@@ -43,13 +41,11 @@ suite('Model: Message.find()', function() {
         {
           timings: timingsStub,
           daoFac: {
-            daoFor: stub()
-              .usingPromise(Promise)
-              .resolves({
-                find: stub()
-                  .usingPromise(Promise)
-                  .rejects('error')
-              })
+            daoFor: stub().returns({
+              find: stub()
+                .usingPromise(Promise)
+                .rejects('error')
+            })
           }
         },
         {}
@@ -72,13 +68,11 @@ suite('Model: Message.find()', function() {
     assert.throws(() => {
       Message.find({
         daoFac: {
-          daoFor: stub()
-            .usingPromise(Promise)
-            .resolves({
-              find: stub()
-                .usingPromise(Promise)
-                .resolves(null)
-            })
+          daoFor: stub().returns({
+            find: stub()
+              .usingPromise(Promise)
+              .resolves(null)
+          })
         }
       });
     }, '`id` is a required argument to Message.find()');
@@ -88,13 +82,11 @@ suite('Model: Message.find()', function() {
     const messages = await Message.find(
       {
         daoFac: {
-          daoFor: stub()
-            .usingPromise(Promise)
-            .resolves({
-              find: stub()
-                .usingPromise(Promise)
-                .resolves(null)
-            })
+          daoFor: stub().returns({
+            find: stub()
+              .usingPromise(Promise)
+              .resolves(null)
+          })
         }
       },
       3
@@ -107,13 +99,11 @@ suite('Model: Message.find()', function() {
     const messages = await Message.find(
       {
         daoFac: {
-          daoFor: stub()
-            .usingPromise(Promise)
-            .resolves({
-              find: stub()
-                .usingPromise(Promise)
-                .resolves(messageData())
-            })
+          daoFor: stub().returns({
+            find: stub()
+              .usingPromise(Promise)
+              .resolves(messageData())
+          })
         }
       },
       1

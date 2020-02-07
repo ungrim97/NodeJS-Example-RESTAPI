@@ -25,15 +25,11 @@ module.exports = class DaoFac {
    * @returns {Promise<DAO>} - Promise that resolves to the DAO instance (or errors)
    */
   daoFor(daoName) {
-    return new Promise((resolve, reject) => {
-      switch (daoName) {
-        case 'message':
-          return resolve(new Message(this.store));
-          break;
-        default:
-          return reject(new Error(`No DAO for ${daoName}`));
-          break;
-      }
-    });
+    switch (daoName) {
+      case 'message':
+        return new Message(this.store);
+      default:
+        throw new Error(`No DAO for ${daoName}`);
+    }
   }
 };

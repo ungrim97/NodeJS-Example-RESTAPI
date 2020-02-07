@@ -19,13 +19,11 @@ suite('Model: Message.create()', function() {
       const messages = await this.message.create({
         timings: timingsStub,
         daoFac: {
-          daoFor: stub()
-            .usingPromise(Promise)
-            .resolves({
-              create: stub()
-                .usingPromise(Promise)
-                .resolves(messageData())
-            })
+          daoFor: stub().returns({
+            create: stub()
+              .usingPromise(Promise)
+              .resolves(messageData())
+          })
         }
       });
 
@@ -44,13 +42,11 @@ suite('Model: Message.create()', function() {
           {
             timings: timingsStub,
             daoFac: {
-              daoFor: stub()
-                .usingPromise(Promise)
-                .resolves({
-                  create: stub()
-                    .usingPromise(Promise)
-                    .rejects('error')
-                })
+              daoFor: stub().returns({
+                create: stub()
+                  .usingPromise(Promise)
+                  .rejects('error')
+              })
             }
           },
           {}
@@ -76,13 +72,11 @@ suite('Model: Message.create()', function() {
     assert.throws(() => {
       this.message.create({
         daoFac: {
-          daoFor: stub()
-            .usingPromise(Promise)
-            .resolves({
-              create: stub()
-                .usingPromise(Promise)
-                .resolves(null)
-            })
+          daoFor: stub().returns({
+            create: stub()
+              .usingPromise(Promise)
+              .resolves(null)
+          })
         }
       });
     }, 'Cannot call message.create() on message already in storage');
@@ -93,11 +87,9 @@ suite('Model: Message.create()', function() {
       .usingPromise(Promise)
       .resolves();
 
-    const daoStub = stub()
-      .usingPromise(Promise)
-      .resolves({
-        create: createStub
-      });
+    const daoStub = stub().returns({
+      create: createStub
+    });
 
     await this.message
       .create({
@@ -119,11 +111,9 @@ suite('Model: Message.create()', function() {
       .usingPromise(Promise)
       .resolves(messageData());
 
-    const daoStub = stub()
-      .usingPromise(Promise)
-      .resolves({
-        create: createStub
-      });
+    const daoStub = stub().returns({
+      create: createStub
+    });
 
     const messages = await this.message.create({
       daoFac: {

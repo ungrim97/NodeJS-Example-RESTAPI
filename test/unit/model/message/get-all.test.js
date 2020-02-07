@@ -17,13 +17,11 @@ suite('Model: Message.getAll()', function() {
         {
           timings: timingsStub,
           daoFac: {
-            daoFor: stub()
-              .usingPromise(Promise)
-              .resolves({
-                getAll: stub()
-                  .usingPromise(Promise)
-                  .resolves(messageData())
-              })
+            daoFor: stub().returns({
+              getAll: stub()
+                .usingPromise(Promise)
+                .resolves(messageData())
+            })
           }
         },
         {}
@@ -43,13 +41,11 @@ suite('Model: Message.getAll()', function() {
         {
           timings: timingsStub,
           daoFac: {
-            daoFor: stub()
-              .usingPromise(Promise)
-              .resolves({
-                getAll: stub()
-                  .usingPromise(Promise)
-                  .rejects('error')
-              })
+            daoFor: stub().returns({
+              getAll: stub()
+                .usingPromise(Promise)
+                .rejects('error')
+            })
           }
         },
         {}
@@ -72,13 +68,11 @@ suite('Model: Message.getAll()', function() {
     const messages = await Message.getAll(
       {
         daoFac: {
-          daoFor: stub()
-            .usingPromise(Promise)
-            .resolves({
-              getAll: stub()
-                .usingPromise(Promise)
-                .resolves([])
-            })
+          daoFor: stub().returns({
+            getAll: stub()
+              .usingPromise(Promise)
+              .resolves([])
+          })
         }
       },
       {}
@@ -96,11 +90,9 @@ suite('Model: Message.getAll()', function() {
       const messages = await Message.getAll(
         {
           daoFac: {
-            daoFor: stub()
-              .usingPromise(Promise)
-              .resolves({
-                getAll: daoStub
-              })
+            daoFor: stub().returns({
+              getAll: daoStub
+            })
           }
         },
         {}

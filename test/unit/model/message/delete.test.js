@@ -19,13 +19,11 @@ suite('Model: Message.delete()', function() {
       const messages = await this.message.delete({
         timings: timingsStub,
         daoFac: {
-          daoFor: stub()
-            .usingPromise(Promise)
-            .resolves({
-              delete: stub()
-                .usingPromise(Promise)
-                .resolves(messageData())
-            })
+          daoFor: stub().returns({
+            delete: stub()
+              .usingPromise(Promise)
+              .resolves(messageData())
+          })
         }
       });
 
@@ -44,13 +42,11 @@ suite('Model: Message.delete()', function() {
           {
             timings: timingsStub,
             daoFac: {
-              daoFor: stub()
-                .usingPromise(Promise)
-                .resolves({
-                  delete: stub()
-                    .usingPromise(Promise)
-                    .rejects('error')
-                })
+              daoFor: stub().returns({
+                delete: stub()
+                  .usingPromise(Promise)
+                  .rejects('error')
+              })
             }
           },
           {}
@@ -75,13 +71,11 @@ suite('Model: Message.delete()', function() {
       this.message.id = undefined;
       this.message.delete({
         daoFac: {
-          daoFor: stub()
-            .usingPromise(Promise)
-            .resolves({
-              delete: stub()
-                .usingPromise(Promise)
-                .resolves(null)
-            })
+          daoFor: stub().returns({
+            delete: stub()
+              .usingPromise(Promise)
+              .resolves(null)
+          })
         }
       });
     }, '`this.id` is a required argument to message.delete()');
@@ -91,11 +85,9 @@ suite('Model: Message.delete()', function() {
     const deleteStub = stub()
       .usingPromise(Promise)
       .resolves();
-    const daoStub = stub()
-      .usingPromise(Promise)
-      .resolves({
-        delete: deleteStub
-      });
+    const daoStub = stub().returns({
+      delete: deleteStub
+    });
 
     const messages = await this.message.delete({
       daoFac: {
@@ -111,11 +103,9 @@ suite('Model: Message.delete()', function() {
     const deleteStub = stub()
       .usingPromise(Promise)
       .resolves(messageData());
-    const daoStub = stub()
-      .usingPromise(Promise)
-      .resolves({
-        delete: deleteStub
-      });
+    const daoStub = stub().returns({
+      delete: deleteStub
+    });
 
     const messages = await this.message.delete({
       daoFac: {

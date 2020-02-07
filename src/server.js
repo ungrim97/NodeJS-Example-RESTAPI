@@ -54,7 +54,7 @@ module.exports = class Server {
   /**
    * Initialise application middleware/routes etc
    */
-  async init() {
+  init() {
     // Add Server timings header
     this.app.use(serverTiming());
 

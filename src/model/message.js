@@ -73,9 +73,7 @@ module.exports = class Message {
 
     return deps.daoFac
       .daoFor('message')
-      .then(dao => {
-        return dao.update(deps, this.id, updateData);
-      })
+      .update(deps, this.id, updateData)
       .then(message => {
         if (deps.timings) {
           deps.timings.stopSpan('message:update');
@@ -127,12 +125,10 @@ module.exports = class Message {
 
     return deps.daoFac
       .daoFor('message')
-      .then(dao => {
-        return dao.create(deps, {
-          createdBy: this.createdBy,
-          text: this.text,
-          owner: this.owner
-        });
+      .create(deps, {
+        createdBy: this.createdBy,
+        text: this.text,
+        owner: this.owner
       })
       .then(message => {
         if (deps.timings) {
@@ -183,7 +179,7 @@ module.exports = class Message {
 
     return deps.daoFac
       .daoFor('message')
-      .then(dao => dao.delete(deps, this.id))
+      .delete(deps, this.id)
       .then(message => {
         if (deps.timings) {
           deps.timings.stopSpan('message:delete');
@@ -205,7 +201,6 @@ module.exports = class Message {
   }
 
   /* Static methods */
-
   /**
    * Find a single message
    *
@@ -234,9 +229,7 @@ module.exports = class Message {
 
     return deps.daoFac
       .daoFor('message')
-      .then(dao => {
-        return dao.find(deps, id);
-      })
+      .find(deps, id)
       .then(message => {
         if (deps.timings) {
           deps.timings.stopSpan('message:find');
@@ -281,9 +274,7 @@ module.exports = class Message {
 
     return deps.daoFac
       .daoFor('message')
-      .then(dao => {
-        return dao.totalMessages(deps);
-      })
+      .totalMessages(deps)
       .then(totalCount => {
         if (deps.timings) {
           deps.timings.stopSpan('message:totalMessage');
@@ -333,7 +324,7 @@ module.exports = class Message {
 
     return deps.daoFac
       .daoFor('message')
-      .then(dao => dao.getAll(deps, query))
+      .getAll(deps, query)
       .filter(message => message)
       .map(message => new Message(message))
       .then(messages => {

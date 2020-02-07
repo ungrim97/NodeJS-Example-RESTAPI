@@ -7,20 +7,12 @@ suite('daoFor', function() {
   test('No Dao', function() {
     const daoFac = new DaoFac({});
 
-    return daoFac
-      .daoFor('test')
-      .then(() => {
-        assert.isNotOk(true);
-      })
-      .catch(error => {
-        assert.equal(error, 'Error: No DAO for test');
-      });
+    assert.throws(() => daoFac.daoFor('test'), 'No DAO for test');
   });
 
-  test('DAO', async function() {
+  test('DAO', function() {
     const daoFac = new DaoFac({});
 
-    const dao = await daoFac.daoFor('message');
-    assert.deepEqual(dao, { store: {} });
+    assert.deepEqual(daoFac.daoFor('message'), { store: {} });
   });
 });
