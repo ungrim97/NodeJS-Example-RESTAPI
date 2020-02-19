@@ -6,7 +6,6 @@ const etags = require('koa-etag');
 const Koa = require('koa');
 const serve = require('koa-static');
 const serverTiming = require('koa-server-timing');
-const status = require('http-status');
 const swaggerUI = require('koa2-swagger-ui');
 const morgan = require('koa-morgan');
 const mount = require('koa-mount');
