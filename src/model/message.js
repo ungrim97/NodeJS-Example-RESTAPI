@@ -1,5 +1,5 @@
 'use strict';
-/**i
+/**
  * @class
  * @property {integer} id - Identifier of the message
  * @property {string} text - The text of the messsage
@@ -25,10 +25,13 @@ module.exports = class Message {
   /**
    * Update a single message
    *
-   * @args {Object} deps.daoFac - Dao Factory
-   * @args {Object} deps.timings - Instance of a Koa Server Timings object (optional)
-   * @args {string} args.text - Updated message text
-   * @args {string} args.owner - Updated owner id
+   * @param {Object} deps - Dependencies
+   * @param {DaoFac} deps.daoFac - Dao Factory
+   * @param {KoaServerTimings} deps.timings - Instance of a Koa Server Timings object (optional)
+   * @param {Object} args - function arguments
+   * @param {string} args.text - Updated message text
+   * @param {string} args.owner - Updated owner id
+   *
    * @returns {Promise<Message>} - Resolves a Message object
    */
   update(deps, args) {
@@ -97,9 +100,9 @@ module.exports = class Message {
   /**
    * Create a single message
    *
-   * @args {Object} deps - Injected Dependencies
-   * @args {Object} deps.daoFac - Dao Factory
-   * @args {Object} [deps.timings] - Instance of a Koa Server Timings object (optional)
+   * @param {Object} deps - Injected Dependencies
+   * @param {DaoFac} deps.daoFac - Dao Factory
+   * @param {KoaServerTimings} [deps.timings] - Instance of a Koa Server Timings object (optional)
    *
    * @returns {Promise<Message>} Message - Resolves the created Message object
    * @throws {Error} '`deps.daoFac` is a required argument to message.create()'
@@ -153,9 +156,9 @@ module.exports = class Message {
   /**
    * Delete a single message
    *
-   * @args {Object} deps - Injected Dependencies
-   * @args {Object} deps.daoFac - Dao Factory
-   * @args {Object} [deps.timings] - Instance of a Koa Server Timings object (optional)
+   * @param {Object} deps - Injected Dependencies
+   * @param {DaoFac} deps.daoFac - Dao Factory
+   * @param {KoaServerTimings} [deps.timings] - Instance of a Koa Server Timings object (optional)
    *
    * @returns {Promise<Message>} - Resolves the deleted Message object
    * @throws {Error} '`deps.daoFac` is a required argument to message.delete()'
@@ -204,10 +207,10 @@ module.exports = class Message {
   /**
    * Find a single message
    *
-   * @args {Object} deps - Injected Dependencies
-   * @args {Object} deps.daoFac - Dao Factory
-   * @args {Object} [deps.timings] - Instance of a Koa Server Timings object (optional)
-   * @args {integer} id - Id of the message to find
+   * @param {Object} deps - Injected Dependencies
+   * @param {DaoFac} deps.daoFac - Dao Factory
+   * @param {KoaServerTimings} [deps.timings] - Instance of a Koa Server Timings object (optional)
+   * @param {integer} id - Id of the message to find
    *
    * @returns {Promise<Message>} - Resolves to the found Message object
    * @throws {Error} '`deps.daoFac` is a required argument to Message.find()'
@@ -253,9 +256,9 @@ module.exports = class Message {
   /**
    * Retrieve the total number of messages in storage
    *
-   * @args {Object} deps - Injected Dependencies
-   * @args {Object} deps.daoFac - Dao Factory
-   * @args {Object} [deps.timings] - Instance of a Koa Server Timings object (optional)
+   * @param {Object} deps - Injected Dependencies
+   * @param {DaoFac} deps.daoFac - Dao Factory
+   * @param {KoaServerTimings} [deps.timings] - Instance of a Koa Server Timings object (optional)
    *
    * @returns {Promise<integer>} count - Resolves to the total number of messages
    * @throws {Error} '`deps.daoFac` is a required argument to Message.getTotal()'
@@ -294,12 +297,12 @@ module.exports = class Message {
   /**
    * Fetch all messages
    *
-   * @args {Object} deps - Injected Dependencies
-   * @args {Object} deps.daoFac - Dao Factory
-   * @args {Object} [deps.timings] - Instance of a Koa Server Timings object (optional)
-   * @args {Object} [args] - function arguments
-   * @args {integer} [args.limit] - maximum number of messages to return
-   * @args {integer} [args.offset=0] - number of messages to ignore before returning
+   * @param {Object} deps - Injected Dependencies
+   * @param {DaoFac} deps.daoFac - Dao Factory
+   * @param {KoaServerTimings} [deps.timings] - Instance of a Koa Server Timings object (optional)
+   * @param {Object} [args] - function arguments
+   * @param {integer} [args.limit] - maximum number of messages to return
+   * @param {integer} [args.offset=0] - number of messages to ignore before returning
    *
    * @returns {Promise<Array>} - Resolves to all retrieved Message object
    * @throws {Error} '`deps.daoFac` is a required argument to Message.getAll()'
