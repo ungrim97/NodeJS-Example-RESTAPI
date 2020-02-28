@@ -6,7 +6,6 @@ const paginator = require('koa-ctx-paginate');
 const Promise = require('bluebird');
 const router = require('koa-router')();
 const status = require('http-status');
-const logger = require('../logger');
 
 // Business Models
 const Message = require('../model/message');

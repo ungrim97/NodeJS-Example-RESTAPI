@@ -8,6 +8,9 @@ const Message = require('./dao/message');
  * Stores and the Buiness Objects ensuring that the
  * Business layer is separated completely from the
  * Persistence layer
+ *
+ * @class DaoFac
+ * @property {Store} store - Data Store object
  */
 
 module.exports = class DaoFac {
@@ -20,7 +23,7 @@ module.exports = class DaoFac {
    *
    * Provides an easy lookup for DAO's in Business Objects
    *
-   * @args {string} daoNam - Name of dao
+   * @param {string} daoName - Name of dao
    * @returns {DAO} - The DAO instance (or errors)
    */
   daoFor(daoName) {

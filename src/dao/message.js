@@ -1,11 +1,10 @@
 'use strict';
-const Promise = require('bluebird');
 
 /**
  * Data Access layer object for the Message data
  *
- * @constructor
- * @args {Object} store - Instance of the store object
+ * @class
+ * @param {Store} store - Instance of the store object
  */
 module.exports = class MessageDao {
   constructor(store) {
@@ -19,13 +18,13 @@ module.exports = class MessageDao {
   /**
    *  Returns a single message from storage as identified by its primary key
    *
-   *  @args {Object} deps.timings - Instance of a Koa Server Timings object (option)
-   *  @args {integer} id - Id of the message to retrieve
+   *  @param {Object} deps
+   *  @param {KoaServerTimings} deps.timings - Instance of a Koa Server Timings object (option)
+   *  @param {number} id - Id of the message to retrieve
    *
    *  @returns Promise<Object> message
    */
-  find(deps, id) {
-    deps = deps || {};
+  find(deps = {}, id) {
     if (deps.timings) {
       deps.timings.startSpan('messageDao:find');
     }
@@ -55,13 +54,13 @@ module.exports = class MessageDao {
   /**
    *  Deletes a single message from storage as identified by its primary key
    *
-   *  @args {Object} deps.timings - Instance of a Koa Server Timings object (option)
-   *  @args {integer} id - Id of the message to retrieve
+   *  @param {Object} deps
+   *  @param {Object} deps.timings - Instance of a Koa Server Timings object (option)
+   *  @param {number} id - Id of the message to retrieve
    *
    *  @returns Promise<Object> message
    */
-  delete(deps, id) {
-    deps = deps || {};
+  delete(deps = {}, id) {
     if (deps.timings) {
       deps.timings.startSpan('messageDao:delete');
     }
@@ -91,15 +90,15 @@ module.exports = class MessageDao {
   /**
    *  Update a message in storage
    *
-   * @args {Object} deps.timings - Instance of a Koa Server Timings object (option)
-   * @args {integer} id - id of the message to update
-   * @args (string) args.text - Text data of the message
-   * @args (string) args.owner - onder identifier in remote system
-   * @args (string) args.updatedBy - Remote System identifier (required)
+   * @param {Object} deps
+   * @param {Object} deps.timings - Instance of a Koa Server Timings object (option)
+   * @param {number} id - id of the message to update
+   * @param {Object} args
+   * @param {string} args.text - Text data of the message
+   * @param {string} args.owner - onder identifier in remote system
+   * @param {string} args.updatedBy - Remote System identifier (required)
    */
-  update(deps, id, args) {
-    deps = deps || {};
-
+  update(deps = {}, id, args) {
     if (deps.timings) {
       deps.timings.startSpan('messageDao:update');
     }
@@ -143,14 +142,14 @@ module.exports = class MessageDao {
   /**
    * Create a new message in storage
    *
-   * @args {Object} deps.timings - Instance of a Koa Server Timings object (option)
-   * @args (string) args.text - Text data of the message (required)
-   * @args (string) args.owner - onder identifier in remote system
-   * @args (string) args.createdBy - Remote System identifier
+   * @param {Object} deps - Dependency injection
+   * @param {Object} deps.timings - Instance of a Koa Server Timings object (option)
+   * @param {Object} args - Function arguments
+   * @param {string} args.text - Text data of the message (required)
+   * @param {string} args.owner - onder identifier in remote system
+   * @param {string} args.createdBy - Remote System identifier
    */
-  create(deps, args) {
-    deps = deps || {};
-    args = args || {};
+  create(deps = {}, args = {}) {
     if (deps.timings) {
       deps.timings.startSpan('messageDao:create');
     }
@@ -189,11 +188,11 @@ module.exports = class MessageDao {
   /**
    * Return the total number of messages in storage
    *
-   * @args {Object} deps.timings - Instance of a Koa Server Timings object (optional)
+   * @param {Object} deps
+   * @param {Object} deps.timings - Instance of a Koa Server Timings object (optional)
    */
 
-  totalMessages(deps) {
-    deps = deps || {};
+  totalMessages(deps = {}) {
     if (deps.timings) {
       deps.timings.startSpan('messageDao:totalMessages');
     }
@@ -219,13 +218,16 @@ module.exports = class MessageDao {
   /**
    * Return all message in storage
    *
-   * @args {Object} deps.timings - Instance of a Koa Server timings
-   * @args {integer} args.limit - Max number of messages to return
-   * @args {integer} args.offset - Offset before retrieving messages
+   * @param {Object} deps
+   * @param {Object} deps.timings - Instance of a Koa Server timings
+   * @param {Object} args
+   * @param {number} args.limit - Max number of messages to return
+   * @param {number} args.offset - Offset before retrieving messages
+   *
+   * @returns {Promise<Array<Messaage>>} messages - All stored messages
    */
 
-  getAll(deps, args) {
-    deps = deps || {};
+  getAll(deps = {}, args) {
     if (deps.timings) {
       deps.timings.startSpan('messageDao:getAll');
     }

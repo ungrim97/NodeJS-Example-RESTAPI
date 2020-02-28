@@ -263,7 +263,7 @@ module.exports = class Message {
    * @returns {Promise<integer>} count - Resolves to the total number of messages
    * @throws {Error} '`deps.daoFac` is a required argument to Message.getTotal()'
    */
-  static getTotal(deps, args) {
+  static getTotal(deps) {
     deps = deps || {};
     if (!deps.daoFac) {
       throw new Error(
